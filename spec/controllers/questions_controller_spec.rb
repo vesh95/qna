@@ -21,10 +21,6 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #show' do
     before { get :show, params: { id: question } }
 
-    it 'assigns the required question to @question' do
-      expect(assigns(:question)).to eq question
-    end
-
     it 'renders show view' do
       expect(response).to render_template :show
     end
@@ -34,10 +30,6 @@ RSpec.describe QuestionsController, type: :controller do
     let(:question) { create(:question) }
     before { get :new }
 
-    it 'assigns the requested Question to @question' do
-      expect(assigns(:question)).to be_a_new(Question)
-    end
-
     it 'render new view' do
       expect(response).to render_template :new
     end
@@ -45,10 +37,6 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'GET #edit' do
     before { get :edit, params: { id: question } }
-
-    it 'assigns the requested Question to @question' do
-      expect(assigns(:question)).to eq question
-    end
 
     it 'render edit view' do
       expect(response).to render_template :edit
