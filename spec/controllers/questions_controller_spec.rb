@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  describe 'GET #index' do
-    let(:questions) { create_list(:question, 3)}
+  let(:question) { create(:question) }
+  let(:questions) { create_list(:question, 3)}
 
+  describe 'GET #index' do
     before { get :index }
 
     it 'populates an array of all questions' do
@@ -38,6 +39,18 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'render new view' do
       expect(response).to render_template :new
+    end
+  end
+
+  describe 'GET #edit' do
+    before { get :edit, params: { id: question } }
+
+    it 'assigns the requested Question to @question' do
+      expect(assigns(:question)).to eq question
+    end
+
+    it 'render edit view' do
+      expect(response).to render_template :edit
     end
   end
 end
