@@ -10,6 +10,7 @@ RSpec.describe AnswersController, type: :controller do
                  question_id: question, answer: { body: 'MyTitle' }
                } }.to change(Answer, :count).by(1)
       end
+
       it 'new question belongs to answer' do
         post :create, params: { question_id: question, answer: { body: 'MyTitle' } }
         expect(assigns(:answer).question).to eq question
