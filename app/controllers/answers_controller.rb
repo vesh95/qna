@@ -6,6 +6,8 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new
   end
 
+  def edit; end
+
   def create
     @answer = @question.answers.new(answer_params)
     if @answer.save
@@ -13,6 +15,19 @@ class AnswersController < ApplicationController
     else
       render :new
     end
+  end
+
+  def update
+    if @answer.update(answer_params)
+      redirect_to @answer.question
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @answer.destroy
+    redirect_to @answer.question
   end
 
   private
