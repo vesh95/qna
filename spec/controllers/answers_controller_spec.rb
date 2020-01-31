@@ -85,6 +85,8 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 're-render edit view' do
+        patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }
+
         expect(response).to render_template :edit
       end
     end
