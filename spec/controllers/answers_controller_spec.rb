@@ -47,4 +47,61 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'GET #edit' do
+    let!(:answer) { create(:answer) }
+
+    before { get :edit, params: { id: answer } }
+
+    it 'render edit view' do
+      expect(response).to render_template :edit
+    end
+  end
+
+  describe 'PATCH #update' do
+    let!(:answer) { create(:answer) }
+
+    context 'is valid attributes' do
+      it 'updates attributes for @answer' do
+        patch :update, params: { id: answer.question, answer: { body: 'MyBody2' } }
+        answer.reload
+
+        expect(answer.body).to eq 'MyBody2'
+      end
+
+      it 'redirected to answers' do
+        patch :update, params: { id: answer.question, answer: attributes_for(:answer) }
+
+        expect(response).to redirect_to answer.question
+      end
+    end
+
+    context 'is invalid attributes' do
+      it 'unupdates attributes for @answer' do
+        patch :update, params: { id: answer.question, answer: attributes_for(:answer, :invalid) }
+        answer.reload
+
+        expect(answer.body).to eq 'MyText'
+      end
+
+      it 're-render edit view' do
+        expect(response).to render_template :edit
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    let!(:question) { create(:question) }
+    let!(:answer) { create(:answer)}
+
+    it 'deletes the answer' do
+      expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+    end
+
+    it 'redirect to question show' do
+      delete :destroy, params: { id: answer }
+
+      expect(response).to redirect_to answer.question
+    end
+  end
 end
