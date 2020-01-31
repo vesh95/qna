@@ -63,14 +63,14 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'is valid attributes' do
       it 'updates attributes for @answer' do
-        patch :update, params: { id: answer.question, answer: { body: 'MyBody2' } }
+        patch :update, params: { id: answer, answer: { body: 'MyBody2' } }
         answer.reload
 
         expect(answer.body).to eq 'MyBody2'
       end
 
       it 'redirected to answers' do
-        patch :update, params: { id: answer.question, answer: attributes_for(:answer) }
+        patch :update, params: { id: answer, answer: attributes_for(:answer) }
 
         expect(response).to redirect_to answer.question
       end
@@ -78,7 +78,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'is invalid attributes' do
       it 'unupdates attributes for @answer' do
-        patch :update, params: { id: answer.question, answer: attributes_for(:answer, :invalid) }
+        patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }
         answer.reload
 
         expect(answer.body).to eq 'MyText'
