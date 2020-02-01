@@ -3,7 +3,7 @@ require "rails_helper"
 feature 'Delete question' do
   given(:question) { create(:question) }
 
-  describe 'User not signed in' do
+  context 'User not signed in' do
 
     scenario 'tries destroy question' do
       visit question_path(question)
@@ -13,13 +13,25 @@ feature 'Delete question' do
     end
   end
 
-  describe 'User signed in' do
-    background do
-      given(:user) { create(:user) }
+  context 'User signed in' do
+    given(:user) { create(:user) }
+
+    scenario 'trying to remove someone else\'s question' do
       sign_in(user)
+
+      visit question_path(question)
+      click_on 'Delete question'
+
+      expect(page).to have_content 'You can\'t modified this question'
     end
 
-    scenario 'trying to remove someone else\'s question'
-    scenario 'tries to delete self question'
+    scenario 'tries to delete self question' do
+      sign_in(question.user)
+
+      visit question_path(question)
+      click_on 'Delete question'
+
+      expect(page).to have_content 'Your question successfully deleted'
+    end
   end
 end
