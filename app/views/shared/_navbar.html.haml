@@ -1,0 +1,10 @@
+%nav.navbar
+  - if user_signed_in?
+    .user-menu
+      .user-email= current_user.email
+      .user-actions
+        = link_to 'Sign Out', destroy_user_session_path, method: :delete
+  - else
+    .user-menu
+      = link_to 'Log In', new_user_session_path
+      = link_to 'Sign In', new_user_registration_path
