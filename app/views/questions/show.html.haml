@@ -1,2 +1,11 @@
 %h1= @question.title
 %p= @question.body
+
+= form_with model: [@question, @question.answers.new] do |f|
+  = f.label :body
+  = f.text_area :body
+  = f.submit
+
+%ul
+  - @question.answers.each do |answer|
+    %li= answer.body
