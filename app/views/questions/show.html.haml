@@ -1,8 +1,12 @@
 %h1= @question.title
 %p= @question.body
+= link_to 'Delete question', question_path(@question), method: :delete
 
 = render 'shared/errors', resource: @answer
 
+%h2 Answers
+
+%h3 Create answer
 = form_with model: [@question, @answer] do |f|
   = f.label :body
   = f.text_area :body
