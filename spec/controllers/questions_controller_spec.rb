@@ -120,7 +120,7 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'DELETE #destroy' do
 
-    # before { login(user) }
+    before { login(user) }
 
     let!(:question) { create(:question)}
 
