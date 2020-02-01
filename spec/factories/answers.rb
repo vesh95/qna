@@ -8,11 +8,7 @@ FactoryBot.define do
     end
 
     trait :invalid do
-<<<<<<< HEAD
-      body { "MyAnswer" }
-=======
       body { nil }
->>>>>>> Created Answers resources
     end
   end
 end
