@@ -2,7 +2,11 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
+  let(:user) { create(:user) }
 
+  before do
+    login(user)
+  end
   describe 'POST #create' do
     context 'is valid attributes' do
       it 'saves a new question in the database' do
@@ -20,7 +24,7 @@ RSpec.describe AnswersController, type: :controller do
         post :create, params: { question_id: question, answer: { body: 'MyTitle' } }
         expect(response).to redirect_to assigns(:answer).question
       end
-    end # context
+    end
 
     context 'is invalid attributes' do
       it 'saves a new question in the database' do
@@ -31,7 +35,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-render new view' do
         post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
-        expect(response).to render_template :new
+        expect(response).to redirect_to question
       end
     end
   end
@@ -71,7 +75,6 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:question) { create(:question) }
     let!(:answer) { create(:answer)}
 
     it 'deletes the answer' do
