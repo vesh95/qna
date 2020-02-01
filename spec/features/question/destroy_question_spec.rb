@@ -4,7 +4,6 @@ feature 'Delete question' do
   given(:question) { create(:question) }
 
   describe 'User not signed in' do
-    given(:user) { create(:user) }
 
     scenario 'tries destroy question' do
       visit question_path(question)
@@ -20,9 +19,7 @@ feature 'Delete question' do
       sign_in(user)
     end
 
-    scenario 'trying to remove someone else\'s question' do
-
-    end
+    scenario 'trying to remove someone else\'s question'
     scenario 'tries to delete self question'
   end
 end
