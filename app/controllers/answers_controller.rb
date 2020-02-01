@@ -10,7 +10,7 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @answer.question, notice: 'Your question successfully created'
     else
-      render :new
+      redirect_to @answer.question
     end
   end
 
