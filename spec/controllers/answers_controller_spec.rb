@@ -3,18 +3,6 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
 
-  describe 'GET #new' do
-    before { get :new, params: { question_id: question } }
-
-    it 'assigns the requested Answer to @answer' do
-      expect(assigns(:answer)).to be_a_new(Answer)
-    end
-
-    it 'render new template' do
-      expect(response).to render_template :new
-    end
-  end
-
   describe 'POST #create' do
     context 'is valid attributes' do
       it 'saves a new question in the database' do
