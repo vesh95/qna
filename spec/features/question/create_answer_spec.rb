@@ -4,7 +4,7 @@ feature 'User can send answer for selected question' do
   given!(:question) { create(:question) }
   given!(:user) { create(:user) }
 
-  describe 'Authenticated user tries create answer' do
+  describe 'Authenticated user' do
     background do
       sign_in(user)
       visit question_path(question)
@@ -12,16 +12,18 @@ feature 'User can send answer for selected question' do
       click_on 'Create Answer'
     end
 
-    expect(page).to have_content question.answers.first.body
+    scenario 'tries create answer' do
+      expect(page).to have_content(question.reload.answers.first.body)
+    end
   end
 
   describe 'Unauthenticated user' do
-    given!(:question) { create(:question) }
     background do
       visit question_path(question)
     end
-
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    scenario 'tries create answer' do
+      expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    end
   end
 
 end
