@@ -19,8 +19,9 @@ feature 'Delete question answer' do
   end
 
   context 'authenticated user' do
+    given(:user_not_owner) { create(:user) }
     scenario 'trying to remove someone else\'s answer' do
-      sign_in(user)
+      sign_in(user_not_owner)
 
       visit question_path(question)
       click_on 'Delete answer'
@@ -29,7 +30,7 @@ feature 'Delete question answer' do
     end
 
     scenario 'trying to remove self answer' do
-      sign_in(question.user)
+      sign_in(user)
 
       visit question_path(question)
       click_on 'Delete answer'
