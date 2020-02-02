@@ -7,11 +7,12 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.new(answer_params)
-    if @answer.save
-      redirect_to @answer.question, notice: 'Your question successfully created'
+    if @answer.can_modified?(current_user) && @answer.save
+      flash[:notice] = 'Your question successfully created'
     else
-      redirect_to @answer.question
+      flash[:alert] = 'You can\'t modified this question'
     end
+    redirect_to @answer.question
   end
 
   def update
@@ -23,7 +24,12 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer.destroy
+    if @answer.can_modified?(current_user)
+      @answer.destroy
+      flash[:notice] = 'Your answer successfully deleted'
+    else
+      flash[:alert] = 'You can\'t modified this answer'
+    end
     redirect_to @answer.question
   end
 

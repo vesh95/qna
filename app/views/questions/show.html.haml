@@ -5,13 +5,11 @@
 = render 'shared/errors', resource: @answer
 
 %h2 Answers
+= render @question.answers
 
 %h3 Create answer
 = form_with model: [@question, @answer] do |f|
+  = render 'shared/errors', resource: @answer
   = f.label :body
   = f.text_area :body
   = f.submit
-
-%ul
-  - @question.answers.each do |answer|
-    %li= answer.body
