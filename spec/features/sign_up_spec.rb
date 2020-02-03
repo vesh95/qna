@@ -14,6 +14,15 @@ feature 'Registration user' do
     expect(page).to have_content 'Sign Out'
   end
 
+  scenario 'with valid confirmation' do
+    fill_in 'Email', with: 'a@a'
+    fill_in 'Password', with: '12345678'
+    fill_in 'Password confirmation', with: '12345675'
+    click_on 'Sign up'
+
+    expect(page).to have_content "Password confirmation doesn't match Password"
+  end
+
   scenario 'with invalid attributes' do
     click_on 'Sign up'
 
