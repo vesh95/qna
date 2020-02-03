@@ -1,38 +1,32 @@
 require "rails_helper"
 
 feature 'Delete question answer' do
-  given(:question) { create(:question) }
+  given(:answer) { create(:answer) }
   given(:user) { create(:user) }
-
-  background do
-    question.answers.create!(body: 'MyTextBody', user: user)
-  end
 
   context 'unauthenticated user' do
 
     scenario 'tries destroy answer' do
-      visit question_path(question)
-      click_on 'Delete answer'
+      visit question_path(answer.question)
 
-      expect(page).to have_content 'You need to sign in or sign up before continuing.'
+      expect(page).to_not have_content 'Delete answer'
     end
   end
 
   context 'authenticated user' do
-    given(:user_not_owner) { create(:user) }
     scenario 'trying to remove someone else\'s answer' do
-      sign_in(user_not_owner)
+      sign_in(user)
+      visit question_path(answer.question)
 
-      visit question_path(question)
-      click_on 'Delete answer'
-
-      expect(page).to have_content 'You can\'t modified this answer'
+      expect(page).to_not have_content 'Delete answer'
     end
 
     scenario 'trying to remove self answer' do
-      sign_in(user)
+      sign_in(answer.user)
+      visit question_path(answer.question)
 
-      visit question_path(question)
+      expect(page).to have_content answer.body
+
       click_on 'Delete answer'
 
       expect(page).to have_content 'Your answer successfully deleted'
