@@ -1,13 +1,6 @@
 FactoryBot.define do
-  sequence :title do |n|
-    "Question#{n}"
-  end
-
-  sequence :body do |n|
-    "QusetionBody#{n}"
-  end
-
   factory :question do
+
     title { "MyString" }
     body { "MyText" }
     association :user
@@ -17,8 +10,14 @@ FactoryBot.define do
     end
 
     trait :list_of_questions do
-      title
-      body
+      sequence :title do |n|
+        "Question#{n}"
+      end
+
+      sequence :body do |n|
+        "QuestionBody#{n}"
+      end
+
       association :user
     end
   end
