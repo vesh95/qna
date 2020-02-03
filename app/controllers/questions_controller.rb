@@ -34,7 +34,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if @question.can_modified?(current_user)
+    if current_user.author?(@question)
       flash[:notice] = 'Your question successfully deleted' if @question.destroy
     else
       flash[:alert] = 'You can\'t modified this question'
