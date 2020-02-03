@@ -6,21 +6,27 @@ class AnswersController < ApplicationController
   def edit; end
 
   def create
-    @answer = @question.answers.new(answer_params)
-    if @answer.can_modified?(current_user) && @answer.save
-      flash[:notice] = 'Your question successfully created'
+    @answer = Answer.new(answer_params)
+    @answer.question = @question
+
+    if @answer.save
+      redirect_to @answer.question, notice: 'Your question successfully created'
     else
-      flash[:alert] = 'You can\'t modified this question'
+      render 'questions/show'
     end
-    redirect_to @answer.question
   end
 
   def update
-    if @answer.update(answer_params)
-      redirect_to @answer.question
+    if current_user.author?(@answer)
+      if @answer.update(answer_params)
+        flash[:notice] = 'Your question successfully updated'
+      else
+        return render :edit
+      end
     else
-      render :edit
+      flash[:alert] = 'You can\'t modified this answer'
     end
+    redirect_to @answer.question
   end
 
   def destroy

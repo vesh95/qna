@@ -4,38 +4,52 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:user) { create(:user) }
 
-  before do
-    login(user)
-  end
   describe 'POST #create' do
-    context 'is valid attributes' do
-      it 'saves a new question in the database' do
-        expect { post :create, params: {
-                 question_id: question, answer: { body: 'MyTitle' }
-               } }.to change(Answer, :count).by(1)
+    context 'authenticated user' do
+      before { login (question.user) }
+
+      context 'is valid attributes' do
+        it 'saves a new question in the database' do
+          expect { post :create, params: {
+                   question_id: question, answer: { body: 'MyTitle' }
+                 } }.to change(Answer, :count).by(1)
+        end
+
+        it 'new question belongs to answer' do
+          post :create, params: { question_id: question, answer: { body: 'MyTitle' } }
+          expect(assigns(:answer).question).to eq question
+        end
+
+        it 'redirect to question after save' do
+          post :create, params: { question_id: question, answer: { body: 'MyTitle' } }
+          expect(response).to redirect_to assigns(:answer).question
+        end
       end
 
-      it 'new question belongs to answer' do
-        post :create, params: { question_id: question, answer: { body: 'MyTitle' } }
-        expect(assigns(:answer).question).to eq question
-      end
+      context 'is invalid attributes' do
+        it 'saves a new question in the database' do
+          expect do
+            post :create, params: { question_id: question, answer: { body: '' } }
+          end.to_not change(Answer, :count)
+        end
 
-      it 'redirect to question after save' do
-        post :create, params: { question_id: question, answer: { body: 'MyTitle' } }
-        expect(response).to redirect_to assigns(:answer).question
+        it 're-render new view' do
+          post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
+          expect(response).to render_template 'questions/show'
+        end
       end
     end
 
-    context 'is invalid attributes' do
+    context 'guest user' do
       it 'saves a new question in the database' do
-        expect do
-          post :create, params: { question_id: question, answer: { body: '' } }
-        end.to_not change(Answer, :count)
+        expect { post :create, params: { question_id: question, answer: { body: 'Text' } } }
+               .to_not change(Answer, :count)
       end
 
-      it 're-render new view' do
-        post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
-        expect(response).to redirect_to question
+      it 'redirect to login page' do
+        post :create, params: { question_id: question, answer: { body: 'Text' } }
+
+        expect(request).to redirect_to new_user_session_path
       end
     end
   end
@@ -43,7 +57,28 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #update' do
     let!(:answer) { create(:answer) }
 
+    it 'from guest user redirect to login page' do
+      patch :update, params: { id: answer, answer: attributes_for(:answer) }
+    end
+
+    context 'from not owner user' do
+      let(:user) { create(:user) }
+      before { login(user) }
+
+      it 'redirect to question page' do
+        patch :update, params: { id: answer, answer: attributes_for(:answer) }
+        expect(response).to redirect_to answer.question
+      end
+
+      it 'content not changed' do
+        patch :update, params: { id: answer, answer: { body: 'NewBodyFromAlien' } }
+        expect(assigns(:answer).body).to_not match('NewBodyFromAlien')
+      end
+    end
+
     context 'is valid attributes' do
+      before { login(answer.user) }
+
       it 'updates attributes for @answer' do
         patch :update, params: { id: answer, answer: { body: 'MyBody2' } }
         answer.reload
@@ -59,15 +94,16 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'is invalid attributes' do
+      before { login(answer.user) }
+
       it 'unupdates attributes for @answer' do
         patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }
-        answer.reload
 
-        expect(answer.body).to eq 'MyText'
+        expect(assigns(:answer).valid?).to eq false
       end
 
-      it 're-render edit view' do
-        patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }
+      it 're-render show question view' do
+        patch :update, params: { id: answer, answer: { body: '' } }
 
         expect(response).to render_template :edit
       end
@@ -76,16 +112,34 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'DELETE #destroy' do
     let!(:answer) { create(:answer)}
-    before { login(answer.user) }
 
-    it 'deletes the answer' do
-      expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+    context 'not owner' do
+      let(:user) { create(:user) }
+      before { login(user) }
+
+      it 'deletes the answer' do
+        expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
+      end
+
+      it 'redirect to question show' do
+        delete :destroy, params: { id: answer }
+
+        expect(response).to redirect_to answer.question
+      end
     end
 
-    it 'redirect to question show' do
-      delete :destroy, params: { id: answer }
+    context 'from owner' do
+      before { login(answer.user) }
 
-      expect(response).to redirect_to answer.question
+      it 'deletes the answer' do
+        expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+      end
+
+      it 'redirect to question show' do
+        delete :destroy, params: { id: answer }
+
+        expect(response).to redirect_to answer.question
+      end
     end
   end
 end
