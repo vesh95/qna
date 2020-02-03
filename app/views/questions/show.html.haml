@@ -1,13 +1,13 @@
 %h1= @question.title
 %p= @question.body
-= link_to 'Delete question', question_path(@question), method: :delete
+- if current_user && current_user.author?(@question)
+  = link_to 'Delete question', question_path(@question), method: :delete
 
-= render 'shared/errors', resource: @answer
 
 %h2 Answers
 = render @question.answers
 
-- if current_user 
+- if current_user
   %h3 Create answer
   = form_with model: [@question, @answer] do |f|
     = render 'shared/errors', resource: @answer
