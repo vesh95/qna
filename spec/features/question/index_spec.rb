@@ -6,7 +6,7 @@ feature 'User can seeing all questions' do
   scenario 'User visit questions list' do
     visit questions_path
     2.times do |n|
-      expect(page).to have_content("Qusetion#{n+1}")
+      expect(page).to have_content("Question#{n+1}")
     end
   end
 end
