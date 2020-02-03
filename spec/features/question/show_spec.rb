@@ -4,7 +4,7 @@ feature 'User can view the question' do
   given!(:question) { create(:question) }
 
   background do
-    question.answers = create_list(:answer, 3, :list_of_answers)
+    question.answers = create_list(:answer, 2, :list_of_answers)
   end
 
   scenario 'that\'s selected of list' do
@@ -13,6 +13,6 @@ feature 'User can view the question' do
 
     expect(page).to have_content 'MyText'
 
-    3.times { |n| expect(page).to have_content "Answer#{n+1}" }
+    question.answers.each { |answer| expect(page).to have_content answer.body }
   end
 end
