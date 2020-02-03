@@ -25,10 +25,16 @@ feature 'Delete question' do
     scenario 'tries to delete self question' do
       sign_in(question.user)
 
+      visit questions_path
+      expect(page).to have_content 'MyString'
+
       visit question_path(question)
       click_on 'Delete question'
 
       expect(page).to have_content 'Your question successfully deleted'
+
+      visit questions_path
+      expect(page).to_not have_content 'MyString'
     end
   end
 end
