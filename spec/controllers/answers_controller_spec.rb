@@ -9,7 +9,7 @@ RSpec.describe AnswersController, type: :controller do
       before { login (question.user) }
 
       context 'is valid attributes' do
-        it 'saves a new question in the database' do
+        it 'saves a new answer in the database' do
           expect { post :create, params: {
                    question_id: question, answer: { body: 'MyTitle' }
                  } }.to change(Answer, :count).by(1)
@@ -27,7 +27,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       context 'is invalid attributes' do
-        it 'saves a new question in the database' do
+        it 'saves a new answer in the database' do
           expect do
             post :create, params: { question_id: question, answer: { body: '' } }
           end.to_not change(Answer, :count)
@@ -41,7 +41,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'guest user' do
-      it 'saves a new question in the database' do
+      it 'saves a new answer in the database' do
         expect { post :create, params: { question_id: question, answer: { body: 'Text' } } }
                .to_not change(Answer, :count)
       end
@@ -59,6 +59,8 @@ RSpec.describe AnswersController, type: :controller do
 
     it 'from guest user redirect to login page' do
       patch :update, params: { id: answer, answer: attributes_for(:answer) }
+
+      expect(response).to redirect_to new_user_session_path
     end
 
     context 'from not owner user' do
@@ -99,7 +101,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'unupdates attributes for @answer' do
         patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }
 
-        expect(assigns(:answer).valid?).to eq false
+        expect(assigns(:answer)).to match(answer)
       end
 
       it 're-render show question view' do
@@ -112,6 +114,18 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'DELETE #destroy' do
     let!(:answer) { create(:answer)}
+
+    context 'guest user' do
+      it 'deletes the answer' do
+        expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
+      end
+
+      it 'redirect to login' do
+        delete :destroy, params: { id: answer }
+
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
 
     context 'not owner' do
       let(:user) { create(:user) }
