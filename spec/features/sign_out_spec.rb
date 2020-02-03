@@ -11,4 +11,9 @@ feature 'User can log out' do
 
     expect(page).to have_content 'Signed out successfully.'
   end
+
+  scenario 'Guest log out' do
+    visit root_path
+    expect(page).to_not have_content 'Sign Out'
+  end
 end
