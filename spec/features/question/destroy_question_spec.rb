@@ -37,26 +37,4 @@ feature 'Delete question' do
       expect(page).to_not have_content 'MyString'
     end
   end
-
-  context 'with many questions' do
-    given!(:questions_list) { create_list(:question, 2, :list_of_questions) }
-
-    background do
-      sign_in(questions_list.first.user)
-    end
-
-    scenario 'delete once' do
-      visit questions_path
-
-      expect(page).to have_content "Question1"
-      expect(page).to have_content "Question2"
-
-      click_on 'Question1'
-      click_on 'Delete question'
-
-      visit questions_path
-
-      expect(page).to have_content "Question2"
-    end
-  end
 end
