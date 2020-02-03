@@ -27,8 +27,8 @@ feature 'User can sign in', %q{
   end
 
   scenario 'Sign in with invalid password' do
-    fill_in 'Email', with:  'wrong@test'
-    fill_in 'Password', with: '87654321'
+    fill_in 'Email', with:  user.email
+    fill_in 'Password', with: '12345674'
     click_on 'Log in'
 
     expect(page).to have_content 'Invalid Email or password.'
