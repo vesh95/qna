@@ -1,5 +1,5 @@
 .answer
-  %p= answer.body
+  p= answer.body
   .actions
     - if current_user&.author?(answer)
       = link_to "Delete answer", answer_path(answer), method: :delete
