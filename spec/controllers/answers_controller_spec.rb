@@ -57,10 +57,16 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #update' do
     let!(:answer) { create(:answer) }
 
-    it 'from guest user redirect to login page' do
-      patch :update, params: { id: answer, answer: attributes_for(:answer) }
+    context 'from guest' do
+      it ' user not deleted answer' do
+        expect { patch :update, params: { id: answer, answer: attributes_for(:answer) } }
+               .to_not change(Answer, :count)
+      end
 
-      expect(response).to redirect_to new_user_session_path
+      it 'redirect to login' do
+        patch :update, params: { id: answer, answer: attributes_for(:answer) }
+        expect(response).to redirect_to new_user_session_path
+      end
     end
 
     context 'from not owner user' do
