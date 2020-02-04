@@ -5,8 +5,8 @@ feature 'User can seeing all questions' do
 
   scenario 'User visit questions list' do
     visit questions_path
-    questions.each do |qusetion|
-      expect(page).to have_content(qusetion.title)
+    questions.each do |question|
+      expect(page).to have_content(question.title)
     end
   end
 end

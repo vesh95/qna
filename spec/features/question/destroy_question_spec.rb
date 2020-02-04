@@ -26,7 +26,7 @@ feature 'Delete question' do
       sign_in(question.user)
 
       visit questions_path
-      expect(page).to have_content 'MyString'
+      expect(page).to have_content question.title
 
       visit question_path(question)
       click_on 'Delete question'
@@ -34,7 +34,7 @@ feature 'Delete question' do
       expect(page).to have_content 'Your question successfully deleted'
 
       visit questions_path
-      expect(page).to_not have_content 'MyString'
+      expect(page).to_not have_content question.body
     end
   end
 end
