@@ -1,5 +1,12 @@
-.answer
-  p= answer.body
-
+.answer data-answer-id=answer.id
+  p.body= answer.body
   - if user_signed_in?
-    p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+    .actions
+      = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+    .errors-answer
+      =render 'shared/errors', resource: answer
+    .edit.hidden
+      = form_with model: answer, html: { id: "answer-form-#{answer.id}" } do |f|
+        = f.label :body
+        = f.text_area :body, id: "answer_body-#{answer.id}"
+        = f.submit 'Save'

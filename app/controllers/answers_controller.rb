@@ -10,16 +10,7 @@ class AnswersController < ApplicationController
   end
 
   def update
-    if current_user.author?(@answer)
-      if @answer.update(answer_params)
-        flash[:notice] = 'Your question successfully updated'
-      else
-        return render :edit
-      end
-    else
-      flash[:alert] = 'You can\'t modified this answer'
-    end
-    redirect_to @answer.question
+    @answer.update(answer_params)
   end
 
   def destroy
