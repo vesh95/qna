@@ -1,7 +1,6 @@
 require "rails_helper"
 
 feature 'Edit question answer', js: true do
-  given(:guest_user) { create(:user) }
   given!(:answer) { create(:answer) }
 
   context 'by owner user' do
@@ -44,6 +43,13 @@ feature 'Edit question answer', js: true do
   end
 
   context 'by not owner user' do
+    given(:not_owner_user) { create(:user) }
+
+    background do
+      sign_in(not_owner_user)
+      visit question_path(answer.question)
+    end
+
     it 'edit button not rendered' do
       expect(page).to_not have_content 'Edit'
     end

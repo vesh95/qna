@@ -1,6 +1,6 @@
 .answer data-answer-id=answer.id
   p.body= answer.body
-  - if user_signed_in?
+  - if user_signed_in? && current_user&.author?(answer)
     .actions
       = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
     .errors-answer
