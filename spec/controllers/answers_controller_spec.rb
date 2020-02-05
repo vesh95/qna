@@ -41,7 +41,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'guest user' do
-      it 'saves a new answer in the database' do
+      it 'tries to save a new answer in the database' do
         expect { post :create, params: { question_id: question, answer: { body: 'Text' } } }
                .to_not change(Answer, :count)
       end
@@ -58,9 +58,9 @@ RSpec.describe AnswersController, type: :controller do
     let!(:answer) { create(:answer) }
 
     context 'from guest' do
-      it ' user not deleted answer' do
-        expect { patch :update, params: { id: answer, answer: attributes_for(:answer) } }
-               .to_not change(Answer, :count)
+      it 'user can not updates answer' do
+        patch :update, params: { id: answer, answer: { body: 'New Body' } }
+        expect(answer.reload.body).to_not eq 'New Body'
       end
 
       it 'redirect to login' do
@@ -122,7 +122,7 @@ RSpec.describe AnswersController, type: :controller do
     let!(:answer) { create(:answer)}
 
     context 'guest user' do
-      it 'deletes the answer' do
+      it 'tries to delete the answer' do
         expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
       end
 
@@ -137,7 +137,7 @@ RSpec.describe AnswersController, type: :controller do
       let(:user) { create(:user) }
       before { login(user) }
 
-      it 'deletes the answer' do
+      it 'tries to delete the answer' do
         expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
       end
 
