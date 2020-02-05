@@ -11,38 +11,38 @@ RSpec.describe AnswersController, type: :controller do
       context 'is valid attributes' do
         it 'saves a new answer in the database' do
           expect { post :create, params: {
-                   question_id: question, answer: { body: 'MyTitle' }
+                   question_id: question, answer: { body: 'MyTitle' }, format: :js
                  } }.to change(Answer, :count).by(1)
         end
 
         it 'new question belongs to answer' do
-          post :create, params: { question_id: question, answer: { body: 'MyTitle' } }
+          post :create, params: { question_id: question, answer: { body: 'MyTitle' } }, format: :js
           expect(assigns(:answer).question).to eq question
         end
 
         it 'redirect to question after save' do
-          post :create, params: { question_id: question, answer: { body: 'MyTitle' } }
-          expect(response).to redirect_to assigns(:answer).question
+          post :create, params: { question_id: question, answer: { body: 'MyTitle' } }, format: :js
+          expect(response).to render_template :create
         end
       end
 
       context 'is invalid attributes' do
         it 'saves a new answer in the database' do
           expect do
-            post :create, params: { question_id: question, answer: { body: '' } }
+            post :create, params: { question_id: question, answer: { body: '' } }, format: :js
           end.to_not change(Answer, :count)
         end
 
         it 're-render new view' do
-          post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
-          expect(response).to render_template 'questions/show'
+          post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }, format: :js
+          expect(response).to render_template :create
         end
       end
     end
 
     context 'guest user' do
       it 'tries to save a new answer in the database' do
-        expect { post :create, params: { question_id: question, answer: { body: 'Text' } } }
+        expect { post :create, params: { question_id: question, answer: { body: 'Text' } }, format: :js }
                .to_not change(Answer, :count)
       end
 

@@ -6,14 +6,7 @@ class AnswersController < ApplicationController
   def edit; end
 
   def create
-    @answer = Answer.new(answer_params)
-    @answer.question = @question
-
-    if @answer.save
-      redirect_to @answer.question, notice: 'Your question successfully created'
-    else
-      render 'questions/show'
-    end
+    @answer = @question.answers.create(answer_params)
   end
 
   def update
