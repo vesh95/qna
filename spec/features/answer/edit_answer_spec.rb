@@ -35,7 +35,6 @@ feature 'Edit question answer', js: true do
       within '.answers' do
         find("#answer_body-#{answer.id}").fill_in(with: '')
         click_on 'Save'
-        save_and_open_page
         expect(page).to have_content answer.body
         expect(page).to have_content "Body can't be blank"
       end
