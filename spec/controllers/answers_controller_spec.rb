@@ -47,7 +47,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'redirect to login page' do
-        post :create, params: { question_id: question, answer: { body: 'Text' } }
+        post :create, params: { question_id: question, answer: { body: 'Text' } }, format: :js
 
         expect(request).to redirect_to new_user_session_path
       end
@@ -59,27 +59,27 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'from guest' do
       it 'user can not updates answer' do
-        patch :update, params: { id: answer, answer: { body: 'New Body' } }
+        patch :update, params: { id: answer, answer: { body: 'New Body' } }, format: :js
         expect(answer.reload.body).to_not eq 'New Body'
       end
 
       it 'redirect to login' do
-        patch :update, params: { id: answer, answer: attributes_for(:answer) }
+        patch :update, params: { id: answer, answer: attributes_for(:answer) }, format: :js
         expect(response).to redirect_to new_user_session_path
       end
     end
 
     context 'from not owner user' do
-      let(:user) { create(:user) }
+      # let(:user) { create(:user) }
       before { login(user) }
 
       it 'redirect to question page' do
-        patch :update, params: { id: answer, answer: attributes_for(:answer) }
-        expect(response).to redirect_to answer.question
+        patch :update, params: { id: answer, answer: attributes_for(:answer) }, format: :js
+        expect(response).to render_template :update
       end
 
       it 'content not changed' do
-        patch :update, params: { id: answer, answer: { body: 'NewBodyFromAlien' } }
+        patch :update, params: { id: answer, answer: { body: 'NewBodyFromAlien' } }, format: :js
         expect(assigns(:answer).body).to_not match('NewBodyFromAlien')
       end
     end
@@ -88,16 +88,16 @@ RSpec.describe AnswersController, type: :controller do
       before { login(answer.user) }
 
       it 'updates attributes for @answer' do
-        patch :update, params: { id: answer, answer: { body: 'MyBody2' } }
+        patch :update, params: { id: answer, answer: { body: 'MyBody2' } }, format: :js
         answer.reload
 
         expect(answer.body).to eq 'MyBody2'
       end
 
       it 'redirected to answers' do
-        patch :update, params: { id: answer, answer: attributes_for(:answer) }
+        patch :update, params: { id: answer, answer: attributes_for(:answer) }, format: :js
 
-        expect(response).to redirect_to answer.question
+        expect(response).to render_template :update
       end
     end
 
@@ -105,15 +105,15 @@ RSpec.describe AnswersController, type: :controller do
       before { login(answer.user) }
 
       it 'unupdates attributes for @answer' do
-        patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }
+        patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
 
         expect(assigns(:answer)).to match(answer)
       end
 
       it 're-render show question view' do
-        patch :update, params: { id: answer, answer: { body: '' } }
+        patch :update, params: { id: answer, answer: { body: '' } }, format: :js
 
-        expect(response).to render_template :edit
+        expect(response).to render_template :update
       end
     end
   end
@@ -138,7 +138,7 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it 'tries to delete the answer' do
-        expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
+        expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
       end
 
       it 'redirect to question show' do
@@ -152,7 +152,7 @@ RSpec.describe AnswersController, type: :controller do
       before { login(answer.user) }
 
       it 'deletes the answer' do
-        expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, params: { id: answer }, format: :js }.to change(Answer, :count).by(-1)
       end
 
       it 'redirect to question show' do

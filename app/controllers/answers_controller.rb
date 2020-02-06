@@ -10,7 +10,9 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer.update(answer_params)
+    # TODO: Исправить ошибку с редиректом для гостей
+    @answer.update(answer_params) if current_user.author?(@answer)
+    @question = @answer.question
   end
 
   def destroy
