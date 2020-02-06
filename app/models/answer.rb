@@ -9,4 +9,15 @@ class Answer < ApplicationRecord
   validates :best, :inclusion => { in: [true, false] }
 
   scope :best, -> { where(best: true) }
+
+  def make_best!
+    transaction do
+      question.answers.update_all(best: false)
+      update!(best: true)
+    end
+  end
+
+  def best?
+    self.best
+  end
 end

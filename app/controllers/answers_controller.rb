@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[show]
   before_action :set_question, only: %i[create new]
-  before_action :set_answer, only: %i[edit update destroy]
+  before_action :set_answer, only: %i[edit update destroy best]
 
   def edit; end
 
@@ -18,6 +18,15 @@ class AnswersController < ApplicationController
   def destroy
     if current_user.author?(@answer)
       @answer.destroy
+    end
+  end
+
+  def best
+    @question = @answer.question
+    if current_user.author?(@answer.question)
+      @answer.make_best!
+    else
+      render status: 401
     end
   end
 
