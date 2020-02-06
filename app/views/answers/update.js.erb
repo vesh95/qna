@@ -4,5 +4,5 @@ var updatedAnswer = $('.answer[data-answer-id=<%= "#{@answer.id}" %>]')
   $('textarea', updatedAnswer).text('<%= @answer.body %>')
   $('.body', updatedAnswer).text('<%= @answer.body %>')
 <% else %>
-  $('.errors-answer', updatedAnswer).html('<%= j render "shared/errors", resource: @answer %>')
+  $('.errors-answer-single', updatedAnswer).html('<%= j render "shared/errors", resource: @answer %>')
 <% end %>

@@ -7,10 +7,10 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.create(answer_params)
+    render :create
   end
 
   def update
-    # TODO: Исправить ошибку с редиректом для гостей
     @answer.update(answer_params) if current_user.author?(@answer)
     @question = @answer.question
   end
@@ -18,11 +18,7 @@ class AnswersController < ApplicationController
   def destroy
     if current_user.author?(@answer)
       @answer.destroy
-      flash[:notice] = 'Your answer successfully deleted'
-    else
-      flash[:alert] = 'You can\'t modified this answer'
     end
-    redirect_to @answer.question
   end
 
   private

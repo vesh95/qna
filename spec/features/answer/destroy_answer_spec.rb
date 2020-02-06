@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature 'Delete question answer' do
+feature 'Delete question answer', js: true do
   given(:answer) { create(:answer) }
   given(:user) { create(:user) }
 
@@ -30,7 +30,6 @@ feature 'Delete question answer' do
       click_on 'Delete answer'
 
       expect(page).to_not have_content answer.body
-      expect(page).to have_content 'Your answer successfully deleted'
     end
   end
 end

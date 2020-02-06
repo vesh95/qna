@@ -3,7 +3,9 @@
   - if user_signed_in? && current_user&.author?(answer)
     .actions
       = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-    .errors-answer
+
+      = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true, class: 'delete-answer-link'
+    .errors-answer-single
       =render 'shared/errors', resource: answer
     .edit.hidden
       = form_with model: answer, html: { id: "answer-form-#{answer.id}" } do |f|

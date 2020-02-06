@@ -49,7 +49,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'redirect to login page' do
         post :create, params: { question_id: question, answer: { body: 'Text' } }, format: :js
 
-        expect(request).to redirect_to new_user_session_path
+        expect(response.status).to eq 401
       end
     end
   end
@@ -65,7 +65,8 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirect to login' do
         patch :update, params: { id: answer, answer: attributes_for(:answer) }, format: :js
-        expect(response).to redirect_to new_user_session_path
+        
+        expect(response.status).to eq 401
       end
     end
 
@@ -127,9 +128,9 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'redirect to login' do
-        delete :destroy, params: { id: answer }
+        delete :destroy, params: { id: answer }, format: :js
 
-        expect(response).to redirect_to new_user_session_path
+        expect(response.status).to eq 401
       end
     end
 
@@ -139,12 +140,6 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'tries to delete the answer' do
         expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
-      end
-
-      it 'redirect to question show' do
-        delete :destroy, params: { id: answer }
-
-        expect(response).to redirect_to answer.question
       end
     end
 
@@ -156,9 +151,9 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'redirect to question show' do
-        delete :destroy, params: { id: answer }
+        delete :destroy, params: { id: answer }, format: :js
 
-        expect(response).to redirect_to answer.question
+        expect(response).to render_template :destroy
       end
     end
   end
