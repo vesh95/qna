@@ -189,17 +189,17 @@ RSpec.describe AnswersController, type: :controller do
 
       before do
         login(not_author)
-        patch :best, params: { id: answer }
+        patch :best, params: { id: answer }, format: :js
       end
 
       it 'does not change answer' do
         answer.reload
 
-        expect(answer.best?).to_not eq false
+        expect(answer.best?).to eq false
       end
 
       it 'redirects to question' do
-        expect(response).to redirect_to answer.question
+        expect(response.status).to eq 401
       end
     end
 
