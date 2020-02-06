@@ -15,10 +15,10 @@ feature 'Choose best answer', js: true do
     end
 
     it 'tries to choose best question' do
-      click_on 'Best!'
+      first('.answer').click_link('Best!')
 
       expect(page).to have_link('Best!', count: 1)
-      expect(page).to have_content("That's best answer")
+      expect(page).to have_content("The best answer")
     end
   end
 
