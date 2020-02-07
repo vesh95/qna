@@ -12,8 +12,6 @@ feature 'Edit question answer', js: true do
     it 'edit button is rendered' do
       within '.answers' do
         expect(page).to have_link('Edit')
-        # REVIEW: Не смог включить стили в тесте
-        # page.assert_selector('.edit.hidden')
       end
     end
 
