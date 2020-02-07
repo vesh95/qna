@@ -1,6 +1,6 @@
-var updatedAnswer = $('.answer[data-answer-id=<%= "#{@answer.id}" %>]')
+var updatedAnswer = $('.answer[data-answer-id=<%= @answer.id %>]')
 
-<% unless @answer.errors.present? %>
+<% if @answer.errors.blank? %>
   $('textarea', updatedAnswer).text('<%= @answer.body %>')
   $('.body', updatedAnswer).text('<%= @answer.body %>')
 <% else %>
