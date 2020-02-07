@@ -1,8 +1,19 @@
-= render 'shared/errors', resource: @question
 
 = form_with model: @question do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.submit
+  .question-errors
+  = render 'shared/errors', resource: @question
+  .form-group
+    = f.label :title
+    = f.text_field :title
+  .form-group
+    = f.label :body
+    = f.text_area :body
+  .form-group
+    = f.label :files
+    = f.file_field :files, multiple: true
+  .form-group
+    = f.submit
+  .attached-files
+    - if @question.files.attached?
+      - @question.files.each do |file|
+        .file= link_to file.filename.to_s, url_for(file)
