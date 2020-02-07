@@ -16,8 +16,4 @@ class Answer < ApplicationRecord
       update!(best: true)
     end
   end
-
-  def best?
-    self.best
-  end
 end
