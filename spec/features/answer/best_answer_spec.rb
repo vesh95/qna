@@ -2,6 +2,7 @@ require "rails_helper"
 
 feature 'Choose best answer', js: true do
   given(:question) { create(:question, answers: create_list(:answer, 2)) }
+  given(:answers) { question.answers }
 
   context 'authenticate question author user' do
     background do
@@ -22,14 +23,13 @@ feature 'Choose best answer', js: true do
     end
 
     it 'seen best answer on top' do
-      answer1, answer2 = question.answers
       first(:link, 'Best!').click
 
-      expect(first('.answer')).to have_content(answer1.body)
+      expect(first('.answer')).to have_content(answers[0].body)
 
       click_on('Best!')
 
-      expect(first('.answer')).to have_content(answer2.body)
+      expect(first('.answer')).to have_content(answers[1].body)
     end
   end
 
