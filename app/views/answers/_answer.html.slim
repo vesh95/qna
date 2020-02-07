@@ -9,11 +9,14 @@
 
   - if current_user
     .edit.hidden
-      .errors-answer-single
       = form_with model: answer, html: { id: "answer-form-#{answer.id}" } do |f|
-        = f.label :body
-        = f.text_area :body, id: "answer_body-#{answer.id}"
-        = f.submit 'Save'
+        .errors-answer-single
+        .form-group
+          = f.label :body
+          = f.text_area :body, id: "answer_body-#{answer.id}"
+        .form-group
+          = f.submit 'Save'
+
   .actions
     - if current_user&.author?(answer)
       = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
