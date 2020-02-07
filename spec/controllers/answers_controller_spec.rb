@@ -71,7 +71,6 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'from not owner user' do
-      # let(:user) { create(:user) }
       before { login(user) }
 
       it 'redirect to question page' do
@@ -195,7 +194,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'does not change answer' do
         answer.reload
 
-        expect(answer.best?).to eq false
+        expect(answer).to_not be_best
       end
 
       it 'redirects to question' do
