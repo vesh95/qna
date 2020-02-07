@@ -6,10 +6,10 @@ RSpec.describe Answer, type: :model do
 
   it { should validate_presence_of :body }
 
-  context '#make_best' do
+  describe '#make_best' do
     let(:question) { create(:question) }
     let!(:answer1) { create(:answer, question: question) }
-    let(:answer2) { create(:answer, question: question) }
+    let!(:answer2) { create(:answer, question: question) }
 
     before { answer1.make_best! }
 
@@ -22,6 +22,16 @@ RSpec.describe Answer, type: :model do
       answer2.make_best!
       expect(answer2.reload).to be_best
       expect(answer1.reload).to_not be_best
+    end
+  end
+
+  describe 'ordering' do
+    let(:question) { create(:question, answers: create_list(:answer, 2)) }
+    let!(:best_answer) { create(:answer, best: true, question: question) }
+
+    it 'best answer sould be first' do
+      question.answers.reload
+      expect(question.answers.first).to be_best
     end
   end
 end
