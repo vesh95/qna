@@ -26,12 +26,14 @@ RSpec.describe Answer, type: :model do
   end
 
   describe 'ordering' do
-    let(:question) { create(:question, answers: create_list(:answer, 2)) }
+    let(:question) { create(:question) }
+    let!(:answer1) { create(:answer, question: question) }
+    let!(:answer2) { create(:answer, question: question) }
     let!(:best_answer) { create(:answer, best: true, question: question) }
 
     it 'best answer sould be first' do
       question.answers.reload
-      expect(question.answers.first).to be_best
+      expect(question.answers).to eq [best_answer, answer1, answer2]
     end
   end
 end
