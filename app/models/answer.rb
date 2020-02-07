@@ -6,9 +6,6 @@ class Answer < ApplicationRecord
   belongs_to :question
 
   validates :body, presence: true
-  validates :best, :inclusion => { in: [true, false] }
-
-  scope :best, -> { where(best: true) }
 
   def make_best!
     transaction do
