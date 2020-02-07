@@ -20,6 +20,17 @@ feature 'Choose best answer', js: true do
       expect(page).to have_link('Best!', count: 1)
       expect(page).to have_content("The best answer")
     end
+
+    it 'seen best answer on top' do
+      answer1, answer2 = question.answers
+      first(:link, 'Best!').click
+
+      expect(first('.answer')).to have_content(answer1.body)
+
+      click_on('Best!')
+
+      expect(first('.answer')).to have_content(answer2.body)
+    end
   end
 
   context 'authenticate question not author user' do
