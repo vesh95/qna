@@ -1,8 +1,11 @@
 h1= @question.title
-p= @question.body
+p.question-body= @question.body
 - if current_user&.author?(@question)
   = link_to 'Delete question', question_path(@question), method: :delete
-
+.question-files
+  - if @question.files.attached?
+    - @question.files.each do |file|
+      .file= link_to file.filename.to_s, url_for(file)
 
 h2 Answers
 .answers

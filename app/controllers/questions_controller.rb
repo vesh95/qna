@@ -46,10 +46,10 @@ class QuestionsController < ApplicationController
   private
 
   def set_question
-    @question = Question.find(params['id'])
+    @question = Question.with_attached_files.find(params['id'])
   end
 
   def question_params
-    params.require(:question).permit(:title, :body).merge(user: current_user)
+    params.require(:question).permit(:title, :body, files: []).merge(user: current_user)
   end
 end
