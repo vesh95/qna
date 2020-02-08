@@ -1,3 +1,5 @@
+include ActionDispatch::TestProcess
+
 FactoryBot.define do
   factory :question do
 
@@ -17,8 +19,21 @@ FactoryBot.define do
       sequence :body do |n|
         "QuestionBody#{n}"
       end
-
-      association :user
     end
+
+    trait :with_files do
+      after :create do |answer|
+        answer.files.attach(
+          [{
+              io: File.open("#{Rails.root}/README.md"),
+              filename: 'README.md'
+            },{
+              io: File.open("#{Rails.root}/config.ru"),
+              filename: 'config.ru'
+            }]
+        )
+      end
+    end
+
   end
 end
