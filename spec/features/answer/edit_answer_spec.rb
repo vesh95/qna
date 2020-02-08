@@ -27,6 +27,18 @@ feature 'Edit question answer', js: true do
       end
     end
 
+    it 'with attached file' do
+      click_on 'Edit'
+
+      within '.answers' do
+        find("#answer_file-#{answer.id}").attach_file(["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"])
+        click_on 'Save'
+
+        expect(page).to have_content 'rails_helper.rb'
+        expect(page).to have_content 'spec_helper.rb'
+      end
+    end
+
     it 'with invalid attributes' do
       click_on 'Edit'
 
