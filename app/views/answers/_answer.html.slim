@@ -15,6 +15,9 @@
           = f.label :body
           = f.text_area :body, id: "answer_body-#{answer.id}"
         .form-group
+          =f.label :files
+          =f.file_field :files, id: "answer_file-#{answer.id}", multiple: true
+        .form-group
           = f.submit 'Save'
 
   .actions

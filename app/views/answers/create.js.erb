@@ -1,4 +1,3 @@
-
 <% if @answer.persisted? %>
   $('.answers').append('<%= j render @answer %>');
   $('.new-answer #answer_body').val('');
