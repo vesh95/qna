@@ -36,7 +36,7 @@ feature 'User can destroy answer attached files', js: true do
     end
   end
 
-  context 'by another user' do
+  context 'by guest user' do
     background do
       visit question_path(question)
     end
