@@ -1,0 +1,10 @@
+= form_with model: [question, answer], html: { id: field_id(answer, 'answer_form') } do |f|
+  .errors-answer
+    = render 'shared/errors', resource: answer
+  .form-group
+    = f.label :body
+    = f.text_area :body, id: field_id(answer, 'answer_body')
+    =f.label :files
+    =f.file_field :files, id: field_id(answer, 'answer_files'), multiple: true, direct_upload: true
+  .form-group
+    = f.submit

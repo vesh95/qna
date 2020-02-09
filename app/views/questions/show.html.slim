@@ -17,14 +17,4 @@ h2 Answers
 - if current_user
   h3 Create answer
   .answer-form
-    = form_with model: [@question, @answer] do |f|
-      .errors-answer
-        = render 'shared/errors', resource: @answer
-      .form-group
-        = f.label :body
-        = f.text_area :body
-      .form-group
-        = f.label :files
-        = f.file_field :files, multiple: true, direct_upload: true
-      .form-group
-        = f.submit
+    = render partial: 'answers/form', locals: { question: @question, answer: @answer }

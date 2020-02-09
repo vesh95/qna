@@ -20,7 +20,7 @@ feature 'Edit question answer', js: true do
 
       within '.answers' do
         find("#answer_body-#{answer.id}").fill_in(with: 'edited answer')
-        click_on 'Save'
+        click_on 'Update Answer'
 
         expect(page).to_not have_content answer.body
         expect(page).to have_content 'edited answer'
@@ -31,8 +31,8 @@ feature 'Edit question answer', js: true do
       click_on 'Edit'
 
       within '.answers' do
-        find("#answer_file-#{answer.id}").attach_file(["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"])
-        click_on 'Save'
+        find("#answer_files-#{answer.id}").attach_file(["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"])
+        click_on 'Update Answer'
 
         if find('.direct-upload--complete')
           expect(page).to have_content 'rails_helper.rb'
@@ -46,7 +46,7 @@ feature 'Edit question answer', js: true do
 
       within '.answers' do
         find("#answer_body-#{answer.id}").fill_in(with: '')
-        click_on 'Save'
+        click_on 'Update Answer'
         expect(page).to have_content answer.body
         expect(page).to have_content "Body can't be blank"
       end

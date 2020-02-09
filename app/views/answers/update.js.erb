@@ -3,5 +3,5 @@ var updatedAnswer = $('.answer[data-answer-id=<%= @answer.id %>]')
 <% if @answer.errors.blank? %>
   $(updatedAnswer).html('<%= j render @answer %>');
 <% else %>
-  $('.errors-answer-single', updatedAnswer).html('<%= render 'shared/errors', resource: @answer %>')
+  $(".errors-answer", updatedAnswer).html('<%= render 'shared/errors', resource: @answer %>')
 <% end %>
