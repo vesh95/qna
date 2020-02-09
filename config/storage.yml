@@ -1,18 +1,23 @@
-test:
+local_test: &local_test
   service: Disk
-  root: <%= Rails.root.join("tmp/storage") %>
+root: <%= Rails.root.join("tmp/storage") %>
 
-local:
+local: &local
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
-# amazon:
-#   service: S3
-#   access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
-#   secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
-#   region: us-east-1
-#   bucket: your_own_bucket
+yandex: &yandex
+  service: S3
+  access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %> 
+  secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
+  endpoint: 'https://storage.yandexcloud.net'
+  bucket: qna-storage
+  force_path_style: true
+  region: eu-north-1
+
+test:
+  <<: *yandex
 
 # Remember not to checkin your GCS keyfile to a repository
 # google:
