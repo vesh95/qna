@@ -23,15 +23,10 @@ FactoryBot.define do
 
     trait :with_files do
       after :create do |answer|
-        answer.files.attach(
-          [{
+        answer.files.attach({
               io: File.open("#{Rails.root}/README.md"),
               filename: 'README.md'
-            },{
-              io: File.open("#{Rails.root}/config.ru"),
-              filename: 'config.ru'
-            }]
-        )
+        })
       end
     end
 
