@@ -3,9 +3,7 @@
     i The best answer
   p.body.answer-body= answer.body
   .answer-files
-    - if answer.files.attached?
-      - answer.files.each do |file|
-        .file= link_to file.filename.to_s, url_for(file)
+    = render 'attachments/attachment', resource: answer
 
   - if current_user
     .edit.hidden
