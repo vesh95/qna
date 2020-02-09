@@ -15,5 +15,19 @@ FactoryBot.define do
     trait :invalid do
       body { nil }
     end
+
+    trait :with_files do
+      after :create do |answer|
+        answer.files.attach(
+          [{
+              io: File.open("#{Rails.root}/Rakefile"),
+              filename: 'Rakefile'
+            },{
+              io: File.open("#{Rails.root}/Gemfile"),
+              filename: 'Gemfile'
+            }]
+        )
+      end
+    end
   end
 end
