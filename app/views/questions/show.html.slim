@@ -25,6 +25,6 @@ h2 Answers
         = f.text_area :body
       .form-group
         = f.label :files
-        = f.file_field :files, multiple: true
+        = f.file_field :files, multiple: true, direct_upload: true
       .form-group
         = f.submit
