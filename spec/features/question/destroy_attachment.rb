@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature 'User can destroy question attached files' do
+feature 'User can destroy question attached files', js: true do
   given!(:question) { create(:question, :with_files) }
   given(:user) { create(:user) }
   given(:author) { question.user }
@@ -14,7 +14,7 @@ feature 'User can destroy question attached files' do
     it 'have attachments' do
       expect(page).to have_link 'README.md'
       expect(page).to have_link 'config.ru'
-      expect(page).to have_link('Delete attach', count: 2)
+      expect(page).to have_link('Delete attachment', count: 2)
     end
 
     it 'tries delete delete' do

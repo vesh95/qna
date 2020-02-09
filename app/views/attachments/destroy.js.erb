@@ -1,0 +1,3 @@
+<% if @attachment.destroyed? %>
+  $(".file[data-attach-id=<%= @attachment.id %>]").remove()
+<% end %>
