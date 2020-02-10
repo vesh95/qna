@@ -25,11 +25,10 @@ feature 'User can send answer for selected question' do
           attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
           click_on 'Create Answer'
         end
-        if find('.direct-upload--complete', count: 2)
-          within '.answers' do
-            expect(page).to have_link 'rails_helper.rb'
-            expect(page).to have_link 'spec_helper.rb'
-          end
+        find('.direct-upload--complete', count: 2)
+        within '.answers' do
+          expect(page).to have_link 'rails_helper.rb'
+          expect(page).to have_link 'spec_helper.rb'
         end
       end
 
