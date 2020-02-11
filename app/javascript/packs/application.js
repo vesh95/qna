@@ -8,6 +8,7 @@ require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 require("jquery")
+require("cocoon-js")
 
 require("../utilities/answers/form_toggler.js")
 require("../utilities/direct_upload.js")

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature 'User can add link to question' do
+feature 'User can add link to question', js: true do
   given!(:user) { create(:user) }
 
   context 'create question' do
@@ -14,7 +14,7 @@ feature 'User can add link to question' do
     it 'with valid link' do
       fill_in 'Name', with: 'Github'
       fill_in 'Url', with: 'https://github.com/'
-      click_on 'Create Question'
+      click_on 'Ask'
 
       expect(page).to have_link 'Github', href: 'https://github.com/'
     end
@@ -22,13 +22,13 @@ feature 'User can add link to question' do
     it 'with invalid link' do
       fill_in 'Name', with: 'Github'
       fill_in 'Url', with: 'https://.com/'
-      click_on 'Create Question'
+      click_on 'Ask'
 
       expect(page).to have_content 'Invalid Link'
     end
 
     it 'with blank fields' do
-      click_on 'Create Question'
+      click_on 'Ask'
 
       expect(page).to have_content 'Question body'
     end
