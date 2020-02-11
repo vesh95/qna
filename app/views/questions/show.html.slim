@@ -1,6 +1,9 @@
 h1
   = @question.title
 
+.links
+  = render @question.links
+
 p.question-body= @question.body
 
 .question-files

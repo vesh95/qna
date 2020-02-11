@@ -11,6 +11,8 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true
 
+  accepts_nested_attributes_for :links
+
   def make_best!
     transaction do
       question.answers.update_all(best: false)

@@ -1,5 +1,5 @@
 
-= form_with model: @question do |f|
+= form_with model: @question, local: true do |f|
   .question-errors
   = render 'shared/errors', resource: @question
   .form-group
@@ -11,9 +11,15 @@
   .form-group
     = f.label :files
     = f.file_field :files, multiple: true, direct_upload: true
-  .form-group
-    = f.submit
+  .links
+    #links
+    = f.fields_for :links do |link|
+      = render 'links/link_fields', f: link
+    .links
+      = link_to_add_association 'add link', f, :links, partial: 'links/link_fields'
   .attached-files
     - if @question.files.attached?
       - @question.files.each do |file|
         .file= link_to file.filename.to_s, url_for(file)
+  .form-group
+    = f.submit
