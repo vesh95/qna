@@ -1,13 +1,15 @@
 .answer data-answer-id=answer.id
   - if answer.best?
     i The best answer
+  .links
+    = render answer.links
   p.body.answer-body= answer.body
   .answer-files
     = render 'attachments/attachment', resource: answer
 
-  - if current_user
+  - if current_user&.author?(answer)
     .edit.hidden
-      = render partial: 'answers/form', locals: { question: nil, answer: answer }
+      = render 'answers/form', answer: answer, question: nil
 
   .actions
     - if current_user&.author?(answer)

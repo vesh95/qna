@@ -20,4 +20,4 @@ h2 Answers
 - if current_user
   h3 Create answer
   .answer-form
-    = render partial: 'answers/form', locals: { question: @question, answer: @answer }
+    = render 'answers/form', answer: @answer, question: @question

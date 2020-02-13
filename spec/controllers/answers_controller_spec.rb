@@ -8,6 +8,11 @@ RSpec.describe AnswersController, type: :controller do
     context 'authenticated user' do
       before { login (question.user) }
 
+      it 'new answer with Link' do
+        post :create, params: { question_id: question, answer: { body: 'MyTitle', links_attributes: [name: 'agasfds', url: 'https://sfags.ru/'] } }, format: :js
+        expect(assigns(:answer).links.first).to be_a(Link)
+      end
+
       context 'is valid attributes' do
         it 'saves a new answer in the database' do
           expect { post :create, params: {
@@ -86,12 +91,19 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'is valid attributes' do
       before { login(answer.user) }
+      let!(:link) { create(:link, linkable: answer) }
 
       it 'updates attributes for @answer' do
         patch :update, params: { id: answer, answer: { body: 'MyBody2' } }, format: :js
         answer.reload
 
         expect(answer.body).to eq 'MyBody2'
+      end
+
+      it 'answer link is instance of Link' do
+        patch :update, params: { id: answer, answer: { body: 'MyTitle', links_attributes: [id: link, name: 'agasfds', url: 'https://ru/'] } }, format: :js
+
+        expect(assigns(:answer).links.first).to be_a(Link)
       end
 
       it 'redirected to answers' do

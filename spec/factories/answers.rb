@@ -24,5 +24,11 @@ FactoryBot.define do
         })
       end
     end
+
+    trait :with_link do
+      after :create do |answer|
+        answer.links.create(name: 'Link1', url: 'http://example.com/')
+      end
+    end
   end
 end

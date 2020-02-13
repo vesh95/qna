@@ -13,9 +13,9 @@
     = f.file_field :files, multiple: true, direct_upload: true
   .links
     #links
-    = f.fields_for :links do |link|
-      = render 'links/link_fields', f: link
-    .links
+      = f.fields_for :links do |link|
+        = render 'links/link_fields', f: link
+    .actions
       = link_to_add_association 'add link', f, :links, partial: 'links/link_fields'
   .attached-files
     - if @question.files.attached?
