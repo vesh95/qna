@@ -1,17 +1,18 @@
 = render 'shared/errors', resource: @question
 
 = form_with model: @question, local: true do |f|
-  .form-group
-    = f.label :title
-    = f.text_field :title
+  #question
+    .form-group
+      = f.label :title
+      = f.text_field :title
 
-  .form-group
-    = f.label :body
-    = f.text_area :body
+    .form-group
+      = f.label :body
+      = f.text_area :body
 
-  .form-group
-    = f.label :files
-    = f.file_field :files, multiple: true, direct_upload: true
+    .form-group
+      = f.label :files
+      = f.file_field :files, multiple: true, direct_upload: true
 
   #links
     = f.fields_for :links do |link|

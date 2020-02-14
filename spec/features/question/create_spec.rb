@@ -13,11 +13,13 @@ feature 'User can create question', %q{
       sign_in(user)
       visit questions_path
       click_on 'Ask question'
+      within '#question' do
+        fill_in 'Title', with: 'Test question'
+        fill_in 'Body', with: 'text text'
+      end
     end
 
     scenario 'Asks a question' do
-      fill_in 'Title', with: 'Test question'
-      fill_in 'Body', with: 'text text'
       click_on 'Ask'
 
       expect(page).to have_content 'Your question successfully created'
@@ -26,9 +28,6 @@ feature 'User can create question', %q{
     end
 
     scenario 'asks a question with attached file' do
-      fill_in 'Title', with: 'Test question'
-      fill_in 'Body', with: 'text text text'
-
       attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
       click_on 'Ask'
 
@@ -37,6 +36,7 @@ feature 'User can create question', %q{
     end
 
     scenario 'Asks a question wit errors' do
+      visit new_question_path
       click_on 'Ask'
 
       expect(page).to have_content "Title can't be blank"
@@ -44,8 +44,11 @@ feature 'User can create question', %q{
 
     scenario 'asks a question with award' do
       visit new_question_path
-      fill_in 'Title', with: 'Title1'
-      fill_in 'Body', with: 'Body1'
+      within '#question' do
+        fill_in 'Title', with: 'Title1'
+        fill_in 'Body', with: 'Body1'
+      end
+
       within '.award-fields' do
         fill_in 'Title', with: 'Award'
         attach_file 'Image', "#{Rails.root}/spec/files/IMG_cat.jpg"

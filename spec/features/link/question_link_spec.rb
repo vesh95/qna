@@ -7,8 +7,10 @@ feature 'User can add link to question', js: true do
     background do
       sign_in(user)
       visit new_question_path
-      fill_in 'Title', with: 'New question'
-      fill_in 'Body', with: 'Question body'
+      within '#question' do
+        fill_in 'Title', with: 'New question'
+        fill_in 'Body', with: 'Question body'
+      end
     end
 
     it 'with valid link' do
