@@ -6,7 +6,7 @@ class Answer < ApplicationRecord
   belongs_to :question
 
   has_many :links, as: :linkable, dependent: :destroy
-  
+
   has_many_attached :files
 
   validates :body, presence: true
@@ -17,7 +17,7 @@ class Answer < ApplicationRecord
     transaction do
       question.answers.update_all(best: false)
       update!(best: true)
-      user.awards << question.award
+      user.awards << question.award unless question.award.nil?
     end
   end
 end
