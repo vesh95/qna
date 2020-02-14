@@ -1,5 +1,7 @@
 class Question < ApplicationRecord
   belongs_to :user
+
+  has_one :award, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :links, as: :linkable, dependent: :destroy
 
