@@ -5,7 +5,7 @@ feature 'User can add link to question', js: true do
 
   context 'create question' do
     background do
-      sign_in(user)      
+      sign_in(user)
       visit new_question_path
       fill_in 'Title', with: 'New question'
       fill_in 'Body', with: 'Question body'
@@ -32,13 +32,21 @@ feature 'User can add link to question', js: true do
 
       expect(page).to have_content 'Question body'
     end
+
+    it 'with gist link' do
+      fill_in 'Name', with: 'Github gist'
+      fill_in 'Url', with: 'https://gist.github.com/schacon/1'
+      click_on 'Ask'
+
+      expect(page).to have_content 'This is gist.'
+    end
   end
 
   context 'edit question' do
     given(:question) { create(:question, links: build_list(:link, 2)) }
 
     background do
-      sign_in(user)      
+      sign_in(user)
       visit edit_question_path(question)
       fill_in 'Title', with: 'New question'
       fill_in 'Body', with: 'Question body'
@@ -69,11 +77,10 @@ feature 'User can add link to question', js: true do
       find_field('Name', with: '').fill_in(with: 'New Link')
       find_field('Url', with: '').fill_in(with: 'https://new.url')
       click_on "Update Question"
-      
+
       within '.links' do
         expect(page).to have_link(count: 3)
       end
     end
   end
-
 end

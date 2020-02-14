@@ -5,3 +5,5 @@ var updatedAnswer = $('.answer[data-answer-id=<%= @answer.id %>]')
 <% else %>
   $(".errors-answer", updatedAnswer).html('<%= render 'shared/errors', resource: @answer %>')
 <% end %>
+
+$(document).trigger('renderedGist')

@@ -2,7 +2,7 @@
   - if answer.best?
     i The best answer
   .links
-    = render answer.links
+    = render 'links/links', resource: answer
   p.body.answer-body= answer.body
   .answer-files
     = render 'attachments/attachment', resource: answer

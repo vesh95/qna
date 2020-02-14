@@ -1,0 +1,10 @@
+- unless resource.links.empty?
+  ul
+    - resource.links.each do |link|
+        - if link.gist?
+          code gist="#{link.url}.json"
+            .spinner-border.spinner-border-sm
+              span.sr-only Loading Gist...
+        - else
+          li
+            =link_to link.name, link.url, class: 'link'

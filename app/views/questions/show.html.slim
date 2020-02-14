@@ -2,7 +2,7 @@ h1
   = @question.title
 
 .links
-  = render @question.links
+  = render 'links/links', resource: @question
 
 p.question-body= @question.body
 

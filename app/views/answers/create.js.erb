@@ -4,3 +4,5 @@
 <% else %>
   $('.errors-answer').html('<%= render 'shared/errors', resource: @answer %>')
 <% end %>
+
+$(document).trigger('renderedGist')

@@ -42,7 +42,20 @@ feature 'User can add link to answer', js: true do
       expect(page).to have_content 'Answer 1'
     end
 
-    it 'with gist link'
+    it 'with gist link' do
+      within '.answer-form' do
+        fill_in 'Name', with: 'Github gist'
+        fill_in 'Url', with: 'https://gist.github.com/schacon/1'
+        click_on 'Create Answer'
+      end
+
+      # save_and_open_page
+      # find text: 'This is gist.'
+
+      expect(page).to have_content 'This is gist.'
+      within '.answer .links' do
+      end
+    end
   end
 
   context 'with edit answer' do
@@ -97,10 +110,10 @@ feature 'User can add link to answer', js: true do
         within '.links' do
           expect(page).to have_link(count: 2)
         end
-      end      
+      end
     end
   end
-  
+
   context 'not answer owner user' do
     given!(:answer) { create(:answer, :with_link, question: question) }
 
