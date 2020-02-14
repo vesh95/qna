@@ -4,16 +4,24 @@
   .form-group
     = f.label :title
     = f.text_field :title
+
   .form-group
     = f.label :body
     = f.text_area :body
+
   .form-group
     = f.label :files
     = f.file_field :files, multiple: true, direct_upload: true
+
   #links
     = f.fields_for :links do |link|
       = render 'links/link_fields', f: link
     .links
       = link_to_add_association 'add link', f, :links, partial: 'links/link_fields'
+
+  #award
+    = f.fields_for :award do |award|
+      = render 'awards/award_fields', a: award
+
   .form-group
     = f.submit 'Ask'

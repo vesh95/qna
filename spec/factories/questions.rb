@@ -22,11 +22,17 @@ FactoryBot.define do
     end
 
     trait :with_files do
-      after :create do |answer|
-        answer.files.attach({
+      after :create do |question|
+        question.files.attach({
               io: File.open("#{Rails.root}/README.md"),
               filename: 'README.md'
         })
+      end
+    end
+
+    trait :with_award do
+      after :create do |question|
+        create(:award, question: question)
       end
     end
 

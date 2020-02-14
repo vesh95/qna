@@ -41,9 +41,22 @@ feature 'User can create question', %q{
 
       expect(page).to have_content "Title can't be blank"
     end
+
+    scenario 'asks a question with award' do
+      visit new_question_path
+      fill_in 'Title', with: 'Title1'
+      fill_in 'Body', with: 'Body1'
+      within '.award-fields' do
+        fill_in 'Title', with: 'Award'
+        attach_file 'Image', "#{Rails.root}/spec/files/IMG_cat.jpg"
+      end
+      click_on 'Ask'
+
+      expect(page).to have_content 'Your question successfully created'
+      expect(page).to have_content 'Title1'
+      expect(page).to have_content 'Body1'
+    end
   end
-
-
 
   scenario 'Unauthenticated user tries to ask a question' do
     visit questions_path

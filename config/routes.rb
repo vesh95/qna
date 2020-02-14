@@ -9,4 +9,6 @@ Rails.application.routes.draw do
   end
 
   resources :attachments, only: :destroy
+
+  resources :users, only: %i[index show]
 end

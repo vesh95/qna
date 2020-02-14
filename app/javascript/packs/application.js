@@ -9,6 +9,7 @@ require("@rails/activestorage").start()
 require("channels")
 require("jquery")
 require("cocoon-js")
+require('bootstrap')
 
 require("../utilities/answers/form_toggler.js")
 require("../utilities/direct_upload.js")
