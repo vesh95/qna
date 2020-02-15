@@ -31,11 +31,13 @@ RSpec.describe Answer, type: :model do
       expect(answer1.reload.user.awards).to be_include(question.award)
 
       answer2.make_best!
+      answer2.reload
+      answer1.reload
 
-      expect(answer2.reload).to be_best
-      expect(answer2.reload.user.awards).to be_include(question.award)
-      expect(answer1.reload).to_not be_best
-      expect(answer1.reload.user.awards).to_not be_include(question.award)
+      expect(answer2).to be_best
+      expect(answer2.user.awards).to be_include(question.award)
+      expect(answer1).to_not be_best
+      expect(answer1.user.awards).to_not be_include(question.award)
     end
   end
 
