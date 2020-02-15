@@ -8,12 +8,17 @@ RSpec.describe Link, type: :model do
 
   it { should validate_url_of(:url) }
 
-  describe 'gist link' do
-    let!(:link) { create(:link, linkable: create(:question), name: 'Gist', url: 'https://gist.github.com/vesh95/14bc353767e214ce7fdf62659692b115') }
+  describe '#gist?' do
+    let!(:gist_link) { build(:link, linkable: create(:question), name: 'Gist', url: 'https://gist.github.com/vesh95/14bc353767e214ce7fdf62659692b115') }
+    let!(:link) { build(:link, linkable: create(:question), name: 'Gist', url: 'https://github.com') }
+
     it 'is gist' do
-      expect(link).to be_gist
+      expect(gist_link).to be_gist
     end
 
+    it 'is gist' do
+      expect(link).to_not be_gist
+    end
   end
 
   describe '#gist_id' do
