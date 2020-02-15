@@ -49,11 +49,8 @@ feature 'User can add link to answer', js: true do
         click_on 'Create Answer'
       end
 
-      # save_and_open_page
-      # find text: 'This is gist.'
-
-      expect(page).to have_content 'This is gist.'
       within '.answer .links' do
+        expect(page).to have_content 'This is gist.'
       end
     end
   end
@@ -108,7 +105,7 @@ feature 'User can add link to answer', js: true do
         click_on "Update Answer"
 
         within '.links' do
-          expect(page).to have_link(count: 2)
+          expect(page).to have_link('New Link', href: 'https://new.url')
         end
       end
     end

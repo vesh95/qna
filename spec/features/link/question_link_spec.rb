@@ -81,7 +81,7 @@ feature 'User can add link to question', js: true do
       click_on "Update Question"
 
       within '.links' do
-        expect(page).to have_link(count: 3)
+        expect(page).to have_link('New Link', href: 'https://new.url')
       end
     end
   end
