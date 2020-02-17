@@ -11,6 +11,8 @@ require("jquery")
 require("cocoon-js")
 require('bootstrap')
 
+require("../vote.js")
+
 require("../utilities/answers/form_toggler.js")
 require("../utilities/direct_upload.js")
 require("../utilities/load_gists.js")
