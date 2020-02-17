@@ -11,6 +11,8 @@
     .edit.hidden
       = render 'answers/form', answer: answer, question: nil
 
+  = render 'shared/vote', resource: answer
+
   .actions
     - if current_user&.author?(answer)
       = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
