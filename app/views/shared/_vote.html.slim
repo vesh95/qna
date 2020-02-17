@@ -1,0 +1,9 @@
+div.votes id="vote-#{resource.class}-#{resource.id}"
+  b
+    | Rating:
+    = resource.rating 
+    .links.inline
+      = link_to '+', polymorphic_path(resource, action: :voteup), method: :post, remote: true, data: { type: :json }
+      = link_to '-', polymorphic_path(resource, action: :votedown), method: :post, remote: true, data: { type: :json }
+      - if current_user.voted?(resource)
+        = link_to 'revote', polymorphic_path(resource, action: :revote), method: :delete, remote: true, data: { type: :json }

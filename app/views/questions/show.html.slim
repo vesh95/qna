@@ -1,17 +1,19 @@
-h1
-  = @question.title
+h1= @question.title
 
-.links
-  = render 'links/links', resource: @question
+#question
+  .links
+    = render 'links/links', resource: @question
 
-p.question-body= @question.body
+  p.question-body= @question.body
 
-.question-files
-  = render 'attachments/attachment', resource: @question
+  .question-files
+    = render 'attachments/attachment', resource: @question
 
-- if current_user&.author?(@question)
-  = link_to 'Delete question', question_path(@question), method: :delete
-  = link_to 'Edit question', edit_question_path(@question)
+  - if current_user&.author?(@question)
+    = link_to 'Delete question', question_path(@question), method: :delete
+    = link_to 'Edit question', edit_question_path(@question)
+
+  = render 'shared/vote', resource: @question
 
 h2 Answers
 .answers
