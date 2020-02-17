@@ -8,6 +8,22 @@ RSpec.describe User, type: :model do
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
 
+  describe '#voted?' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+    let(:answer) { create(:answer) }
+
+    it 'resource is not voted' do
+      expect(user.voted?(question)).to eq false
+    end
+
+    it 'resource is voted' do
+      question.votes.create!(rate: 1, user: user)
+      question.reload
+      expect(user.voted?(question)).to eq true
+    end
+  end
+
   describe 'is author' do
     let(:user) { create(:user) }
 

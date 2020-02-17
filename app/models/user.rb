@@ -10,4 +10,8 @@ class User < ApplicationRecord
   def author?(resource)
     resource.user_id == self.id
   end
+
+  def voted?(resource)
+    !resource.votes.where(user_id: self.id).count.zero?
+  end
 end
