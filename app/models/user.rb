@@ -12,6 +12,6 @@ class User < ApplicationRecord
   end
 
   def voted?(resource)
-    !resource.votes.where(user_id: self.id).count.zero?
+    resource.votes.exists?(user_id: self.id)
   end
 end
