@@ -9,11 +9,11 @@ module Votable
     votes.sum(:rate)
   end
 
-  def vote_up(user)
+  def vote_up!(user)
     self.votes.create!(rate: 1, user: user)
   end
 
-  def vote_down(user)
+  def vote_down!(user)
     self.votes.create!(rate: -1, user: user)
   end
 

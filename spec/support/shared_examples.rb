@@ -19,15 +19,15 @@ RSpec.shared_examples "votable" do
   end
 
   it '#vote_up' do
-    expect { votable.vote_up(user) }.to change(votable, :rating).by(1)
+    expect { votable.vote_up!(user) }.to change(votable, :rating).by(1)
   end
 
   it '#vote_down' do
-    expect { votable.vote_down(user) }.to change(votable, :rating).by(-1)
+    expect { votable.vote_down!(user) }.to change(votable, :rating).by(-1)
   end
 
   it '#vote_out' do
-    votable.vote_up(user)
+    votable.vote_up!(user)
     expect(votable.rating).to eq 1
     expect { votable.vote_out(user) }.to change(votable, :rating).by(-1)
   end

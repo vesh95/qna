@@ -7,7 +7,7 @@ module Voted
 
   def voteup
     unless current_user&.author?(@votable) && current_user&.voted?(@votable)
-      @votable.vote_up(current_user)
+      @votable.vote_up!(current_user)
 
       render_json
     end
@@ -15,7 +15,7 @@ module Voted
 
   def votedown
     unless current_user&.author?(@votable) && current_user&.voted?(@votable)
-      @votable.vote_down(current_user)
+      @votable.vote_down!(current_user)
 
       render_json
     end

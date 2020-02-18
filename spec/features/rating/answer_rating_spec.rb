@@ -51,7 +51,7 @@ feature 'User can vote question/answer', js: true do
     end
 
     scenario 'success voteout' do
-      answer.vote_down(user)
+      answer.vote_down!(user)
       within ".answer" do
         expect(page).to have_link 'revote'
         click_on 'revote'
