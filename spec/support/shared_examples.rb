@@ -8,14 +8,11 @@ end
 RSpec.shared_examples "votable" do
   it { should have_many(:votes).dependent(:destroy) }
 
-  let(:user) { create(:user) }
+  let(:user) { build(:user) }
+  let!(:votes) { create_list(:vote, 3, votable: votable)}
 
   it '#rating' do
-    expect(votable.rating).to eq 0
-
-    Vote.create!(votable: votable, user: user, rate: 1)
-    votable.reload
-    expect(votable.rating).to eq 1
+    expect(votable.rating).to eq 3
   end
 
   it '#vote_up' do
@@ -27,8 +24,6 @@ RSpec.shared_examples "votable" do
   end
 
   it '#vote_out' do
-    votable.vote_up!(user)
-    expect(votable.rating).to eq 1
-    expect { votable.vote_out(user) }.to change(votable, :rating).by(-1)
+    expect { votable.vote_out(votes.last.user) }.to change(votable, :rating).by(-1)
   end
 end
