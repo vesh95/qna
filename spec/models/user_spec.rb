@@ -9,18 +9,19 @@ RSpec.describe User, type: :model do
   it { should validate_presence_of :password }
 
   describe '#voted?' do
-    let(:user) { create(:user) }
-    let(:question) { create(:question) }
-    let(:answer) { create(:answer) }
+    let(:user) { build(:user) }
+    let!(:question) { build(:question) }
+    let!(:answer) { build(:answer) }
+
+    let!(:voted_question) { build(:question) }
+    let!(:vote) { create(:vote, user: user, votable: voted_question) }
 
     it 'resource is not voted' do
-      expect(user.voted?(question)).to eq false
+      expect(user.voted?(question)).to be_falsy
     end
 
     it 'resource is voted' do
-      question.votes.create!(rate: 1, user: user)
-      question.reload
-      expect(user.voted?(question)).to eq true
+      expect(user.voted?(voted_question)).to be_truthy
     end
   end
 
@@ -31,10 +32,10 @@ RSpec.describe User, type: :model do
       let(:question) { create(:question) }
 
       it 'author' do
-        expect(question.user.author?(question)).to eq true
+        expect(question.user.author?(question)).to be_truthy
       end
       it 'not author' do
-        expect(user.author?(question)).to eq false
+        expect(user.author?(question)).to be_falsy
       end
     end
 
@@ -42,11 +43,11 @@ RSpec.describe User, type: :model do
       let(:answer) { create(:answer) }
 
       it 'author' do
-        expect(answer.user.author?(answer)).to eq true
+        expect(answer.user.author?(answer)).to be_truthy
       end
 
       it 'not author' do
-        expect(user.author?(answer)).to eq false
+        expect(user.author?(answer)).to be_falsy
       end
     end
   end
