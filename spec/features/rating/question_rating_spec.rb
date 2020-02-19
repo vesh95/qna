@@ -49,14 +49,20 @@ feature 'User can vote question/answer', js: true do
       end
     end
 
-    scenario 'success voteout' do
-      question.vote_down!(user)
-      within "#question" do
-        expect(page).to have_link 'revote'
-        click_on 'revote'
-        expect(page).to have_content 'Rating:0'
-        expect(page).to have_link '+'
-        expect(page).to have_link '-'
+    context 'voteout' do
+      background do
+        question.vote_up!(user)
+        question_path(question)
+      end
+
+      scenario 'success voteout' do
+        within "#question" do
+          expect(page).to have_link 'revote'
+          click_on 'revote'
+          expect(page).to have_content 'Rating:0'
+          expect(page).to have_link '+'
+          expect(page).to have_link '-'
+        end
       end
     end
   end
