@@ -17,11 +17,11 @@ RSpec.describe User, type: :model do
     let!(:vote) { create(:vote, user: user, votable: voted_question) }
 
     it 'resource is not voted' do
-      expect(user.voted?(question)).to be_falsy
+      expect(user).to_not be_voted(question)
     end
 
     it 'resource is voted' do
-      expect(user.voted?(voted_question)).to be_truthy
+      expect(user).to be_voted(voted_question)
     end
   end
 
@@ -32,10 +32,11 @@ RSpec.describe User, type: :model do
       let(:question) { create(:question) }
 
       it 'author' do
-        expect(question.user.author?(question)).to be_truthy
+        expect(question.user).to be_author(question)
       end
+
       it 'not author' do
-        expect(user.author?(question)).to be_falsy
+        expect(user).to_not be_author(question)
       end
     end
 
@@ -43,11 +44,11 @@ RSpec.describe User, type: :model do
       let(:answer) { create(:answer) }
 
       it 'author' do
-        expect(answer.user.author?(answer)).to be_truthy
+        expect(answer.user).to be_author(answer)
       end
 
       it 'not author' do
-        expect(user.author?(answer)).to be_falsy
+        expect(user).to_not be_author(answer)
       end
     end
   end
