@@ -9,10 +9,10 @@ RSpec.shared_examples "votable" do
   it { should have_many(:votes).dependent(:destroy) }
 
   let(:user) { build(:user) }
-  let!(:votes) { create_list(:vote, 3, votable: votable)}
+  let!(:votes) { create_list(:vote, 2, votable: votable)}
 
   it '#rating' do
-    expect(votable.rating).to eq 3
+    expect(votable.rating).to eq 2
   end
 
   it '#vote_up' do
