@@ -10,8 +10,5 @@ RSpec.describe Vote, type: :model do
   let(:question) { create(:question) }
   let!(:vote) { create(:vote, user: user, votable: question) }
 
-  it 'should validate uniquesness of vote' do
-    vote = Vote.new(user: user, rate: 1, votable: question)
-    expect(vote).not_to be_valid
-  end
+  it { should validate_uniqueness_of(:user).scoped_to(:votable_id, :votable_type) }
 end
