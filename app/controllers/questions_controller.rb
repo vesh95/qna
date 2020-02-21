@@ -28,6 +28,16 @@ class QuestionsController < ApplicationController
     else
       render :new
     end
+
+    if @question.errors.empty?
+      ActionCable.server.broadcast('questions_channel', {
+        data: ApplicationController.render(
+          partial: 'questions/question',
+          locals: { question: @question, current_user: current_user }
+        ),
+        action: :create
+      })
+    end
   end
 
   def update
@@ -45,7 +55,10 @@ class QuestionsController < ApplicationController
       flash[:alert] = 'You can\'t modified this question'
     end
     redirect_to @question
-
+    ActionCable.server.broadcast('questions_channel', {
+      id: @question.id,
+      action: :destroy
+    })
   end
 
   private

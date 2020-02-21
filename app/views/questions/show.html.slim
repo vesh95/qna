@@ -1,6 +1,6 @@
 h1= @question.title
 
-#question
+#question data-question-id=(@question.id)
   .links
     = render 'links/links', resource: @question
 
