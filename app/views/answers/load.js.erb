@@ -1,0 +1,4 @@
+$(".answers .answer[data-answer-id='<%= @answer.id %>']")
+  .replaceWith('<%= j render @answer %>');
+
+$(document).trigger('renderedGist')

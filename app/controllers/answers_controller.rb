@@ -1,9 +1,10 @@
 class AnswersController < ApplicationController
   include Voted
 
-  before_action :authenticate_user!, except: %i[show]
+  before_action :authenticate_user!, except: %i[show load]
   before_action :set_question, only: %i[create new]
-  before_action :set_answer, only: %i[edit update destroy best]
+  before_action :set_answer, only: %i[edit update destroy best load]
+  after_action :broadcast_answer, only: %i[create]
 
   def edit; end
 
@@ -31,6 +32,8 @@ class AnswersController < ApplicationController
     end
   end
 
+  def load; end
+
   private
 
   def set_question
@@ -43,5 +46,13 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body, files: [], links_attributes: [:id, :name, :url, :_destroy]).merge(user: current_user)
+  end
+
+  def broadcast_answer
+    return if @answer.errors.any?
+
+    QuestionAnswersChannel.broadcast_to(@answer.question, data: {
+      answer: @answer,
+    })
   end
 end
