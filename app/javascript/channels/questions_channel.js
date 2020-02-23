@@ -11,8 +11,6 @@ $(document).on('turbolinks:load', function () {
       }
     }) // subscriptions.create()
   } else {
-    if (questionsChannel) {
-      questionsChannel.unsubscribe()
-    }
+    if (questionsChannel) questionsChannel.unsubscribe()
   }
 }) // on 'turbolinks:load'
