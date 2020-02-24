@@ -66,4 +66,29 @@ feature 'User can create question', %q{
 
     expect(page).to_not have_link 'Ask question'
   end
+
+  context "mulitple sessions" do
+    scenario "question appears on another user's page", js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit new_question_path
+      end
+
+      Capybara.using_session('guest') do
+        visit questions_path
+      end
+
+      Capybara.using_session('user') do
+        first('#question_title').fill_in(with: 'Test question')
+        fill_in 'Body', with: 'test text'
+        click_on 'Ask'
+        expect(page).to have_content 'Test question'
+        expect(page).to have_content 'test text'
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'Test question'
+      end
+    end
+  end
 end
