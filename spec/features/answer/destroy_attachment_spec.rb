@@ -14,8 +14,7 @@ feature 'User can destroy answer attached files', js: true do
 
     it 'have attachments' do
       expect(page).to have_link 'Rakefile'
-      expect(page).to have_link 'Gemfile'
-      expect(page).to have_link('Delete attachment', count: 2)
+      expect(page).to have_link('Delete attachment', count: 1)
     end
 
     it 'tries delete delete' do
