@@ -1,7 +1,7 @@
 = form_with model: Comment.new, url: send("create_comment_#{resource.class.name.downcase}_path", resource),
   html: { id: field_id(resource, "comment_form") } do |f|
   .form-group
-    = f.label :text
-    = f.text_area :text, id: field_id(resource, "comment_body")
+    = f.label :text, for: field_id(resource, "comment_text")
+    = f.text_area :text, id: field_id(resource, "comment_text")
   .form-group
     = f.submit
