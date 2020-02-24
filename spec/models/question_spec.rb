@@ -2,9 +2,11 @@ require 'rails_helper'
 
 RSpec.describe Question, type: :model do
   it_behaves_like 'linkable'
+  it_behaves_like 'commentable'
   it_behaves_like 'votable' do
     let(:votable) { create(:question) }
   end
+
 
   it { should belong_to :user }
 

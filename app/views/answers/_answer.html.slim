@@ -1,4 +1,4 @@
-.answer data-answer-id=answer.id
+.answer.card data-answer-id=answer.id
   - if answer.best?
     i The best answer
   .links
@@ -12,6 +12,9 @@
       = render 'answers/form', answer: answer, question: nil
 
   = render 'shared/vote', resource: answer
+
+  = render 'comments/comments', resource: answer
+
 
   .actions
     - if current_user&.author?(answer)

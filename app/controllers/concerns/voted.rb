@@ -1,5 +1,6 @@
 module Voted
   extend ActiveSupport::Concern
+  include Klassify
 
   included do
     before_action :set_votable, only: %i[voteup votedown revote]
@@ -29,10 +30,6 @@ module Voted
 
 
   private
-
-  def model_klass
-    controller_name.classify.constantize
-  end
 
   def set_votable
     @votable = model_klass.find(params[:id])

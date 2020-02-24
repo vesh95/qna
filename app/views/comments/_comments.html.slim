@@ -1,0 +1,5 @@
+h6 Comments
+.comment-form
+  = render 'comments/form', resource: resource
+.comments id=("#{resource.class.name.downcase}-comments-#{resource.id}")
+  = render resource.comments

@@ -27,3 +27,7 @@ RSpec.shared_examples "votable" do
     expect { votable.vote_out(votes.last.user) }.to change(votable, :rating).by(-1)
   end
 end
+
+RSpec.shared_examples "commentable" do
+  it { should have_many(:comments).dependent(:destroy) }
+end

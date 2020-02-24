@@ -8,8 +8,12 @@ Rails.application.routes.draw do
     delete :revote, on: :member
   end
 
-  resources :questions, concerns: :votable do
-    resources :answers, shallow: true, concerns: :votable, except: %i[index show new] do
+  concern :commentable do
+    post :create_comment, on: :member
+  end
+
+  resources :questions, concerns: %i[votable commentable] do
+    resources :answers, shallow: true, concerns: %i[votable commentable], except: %i[index show new] do
       patch :best, on: :member
       get :load, on: :member
     end
