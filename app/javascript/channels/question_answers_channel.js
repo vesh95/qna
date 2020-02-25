@@ -10,7 +10,8 @@ $(document).on('turbolinks:load', function(){
       channel: 'QuestionAnswersChannel', question_id: questionId
     }, {
       received(data) {
-        if (gon.user_id == data.data.user_id) $('.answers').append(answerHtml(data))
+        console.log(data);
+        if (gon.user_id !== data.data.answer.user_id) $('.answers').append(answerHtml(data))
       }
     })
   } else {
