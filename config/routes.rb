@@ -13,9 +13,8 @@ Rails.application.routes.draw do
   end
 
   resources :questions, concerns: %i[votable commentable] do
-    resources :answers, shallow: true, concerns: %i[votable commentable], except: %i[index show new] do
+    resources :answers, shallow: true, concerns: %i[votable commentable], except: %i[index new] do
       patch :best, on: :member
-      get :load, on: :member
     end
   end
 

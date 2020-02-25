@@ -3,7 +3,7 @@ export default function answerHtml(data) {
     <div class="answer" data-answer-id="${data.data.answer.id}">
       ${data.data.answer.body}
       <div class="actions">
-        <a href="/answers/${data.data.answer.id}/load" data-remote="true">Load</a>
+        <a href="/answers/${data.data.answer.id}" data-remote="true">Load</a>
       </div>
     </div>
   `

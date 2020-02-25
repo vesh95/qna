@@ -4,7 +4,7 @@ class AnswersController < ApplicationController
 
   before_action :authenticate_user!, except: %i[show load]
   before_action :set_question, only: %i[create new]
-  before_action :set_answer, only: %i[edit update destroy best load]
+  before_action :set_answer, only: %i[edit update destroy best show]
   after_action :broadcast_answer, only: %i[create]
 
   def edit; end
@@ -33,7 +33,7 @@ class AnswersController < ApplicationController
     end
   end
 
-  def load; end
+  def show; end
 
   private
 
