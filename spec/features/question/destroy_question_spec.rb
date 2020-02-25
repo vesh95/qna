@@ -37,4 +37,26 @@ feature 'Delete question' do
       expect(page).to_not have_content question.body
     end
   end
+
+  context 'mulitple sessions', js: true do
+    scenario "question destroy on another user's page" do
+      Capybara.using_session('user') do
+        sign_in(question.user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit questions_path
+        expect(page).to have_link(question.title)
+      end
+
+      Capybara.using_session('user') do
+        click_on 'Delete question'
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to_not have_link(question.title)
+      end
+    end
+  end
 end

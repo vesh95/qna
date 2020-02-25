@@ -7,7 +7,14 @@ $(document).on('turbolinks:load', function () {
   if ($questionsList.length) {
     questionsChannel = consumer.subscriptions.create("QuestionsChannel", {
       received(data) {
-        $questionsList.append(data.data)
+        switch(data.data.action) {
+          case 'create':
+            $questionsList.append(data.data.question)
+            break
+          case 'destroy':
+            $(`#question-id-${data.data.id}`).remove()
+            break
+        }
       }
     }) // subscriptions.create()
   } else {

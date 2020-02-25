@@ -5,6 +5,7 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_question, only: %i[show edit update destroy]
   after_action :broadcast_question, only: :create
+  after_action :broadcast_destroy_question, only: :create
 
   def index
     @questions = Question.all
@@ -43,14 +44,11 @@ class QuestionsController < ApplicationController
   def destroy
     if current_user.author?(@question)
       flash[:notice] = 'Your question successfully deleted' if @question.destroy
+      broadcast_destroy_question
     else
       flash[:alert] = 'You can\'t modified this question'
     end
     redirect_to @question
-    ActionCable.server.broadcast('questions_channel', {
-      id: @question.id,
-      action: :destroy
-    })
   end
 
   private
@@ -72,11 +70,20 @@ class QuestionsController < ApplicationController
   def broadcast_question
     return if @question.errors.any?
 
-    ActionCable.server.broadcast('questions_channel', {
-      data: ApplicationController.render(
+    ActionCable.server.broadcast('questions_channel', data: {
+      question: ApplicationController.render(
         partial: 'questions/question',
-        locals: { question: @question }
-      )
+        locals: { question: @question },
+        action: :create
+      ),
+      action: :create
+    })
+  end
+
+  def broadcast_destroy_question
+    ActionCable.server.broadcast('questions_channel', data: {
+      id: @question.id,
+      action: :destroy
     })
   end
 end
