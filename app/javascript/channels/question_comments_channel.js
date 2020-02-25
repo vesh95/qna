@@ -10,7 +10,6 @@ $(document).on('turbolinks:load', function () {
       channel: "QuestionCommentsChannel", question_id: questionId
     }, {
       received(data) {
-        // console.log(data);
         $(`#${data.data.type}-comments-${data.data.id}`).append(commentHtml(data))
       }
     });
