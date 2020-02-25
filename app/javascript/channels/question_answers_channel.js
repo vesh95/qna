@@ -10,7 +10,6 @@ $(document).on('turbolinks:load', function(){
       channel: 'QuestionAnswersChannel', question_id: questionId
     }, {
       received(data) {
-        console.log(data);
         if (gon.user_id !== data.data.answer.user_id) $('.answers').append(answerHtml(data))
       }
     })

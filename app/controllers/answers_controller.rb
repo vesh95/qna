@@ -2,7 +2,7 @@ class AnswersController < ApplicationController
   include Voted
   include Commented
 
-  before_action :authenticate_user!, except: %i[show load]
+  before_action :authenticate_user!, except: %i[show]
   before_action :set_question, only: %i[create new]
   before_action :set_answer, only: %i[edit update destroy best show]
   after_action :broadcast_answer, only: %i[create]
