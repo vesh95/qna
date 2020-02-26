@@ -16,4 +16,12 @@ class User < ApplicationRecord
   def voted?(resource)
     resource.votes.exists?(user_id: self.id)
   end
+
+  def self.find_for_oauth(auth)
+    FindForOauth.new(auth).call
+  end
+
+  def create_authorization(auth)
+    authorizations.create!(provider: auth.provider, uid: auth.uid)
+  end
 end
