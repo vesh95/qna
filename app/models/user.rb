@@ -1,13 +1,13 @@
 class User < ApplicationRecord
-  has_many :questions
-  has_many :answers
-  has_many :awards
+  has_many :questions, dependent: :destroy
+  has_many :answers, dependent: :destroy
+  has_many :awards, dependent: :destroy
   has_many :authorizations, dependent: :destroy
 
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  # :lockable, :timeoutable, :trackable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: [:github]
+         :recoverable, :rememberable, :validatable, :confirmable,
+         :omniauthable, omniauth_providers: %i[github vkontakte]
 
   def author?(resource)
     resource.user_id == self.id

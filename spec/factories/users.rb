@@ -6,8 +6,6 @@ FactoryBot.define do
   factory :user do
     email
     password { '12345678' }
-
-    # REVIEW: Для создания пользователя данный атрибут не нужен
-    # password_conformation { '12345678' }
+    confirmed_at { Time.now }
   end
 end
