@@ -17,6 +17,10 @@ feature 'User can sign in with oauth' do
       expect(page).to have_content 'Sign in with Vkontakte'
 
       click_on 'Sign in with Vkontakte'
+      fill_in 'Email', with: 'vk@vk'
+      click_on 'Confirm'
+      open_email 'vk@vk'
+      current_email.click_link 'Confirm my account'
 
       expect(page).to have_content("vk@vk")
       expect(page).to have_content("Sign Out")
@@ -24,9 +28,9 @@ feature 'User can sign in with oauth' do
 
     scenario "can handle authentication error" do
       OmniAuth.config.mock_auth[:github] = :invalid_credentials
-      page.should have_content("Sign in with GitHub")
-      click_link "Sign in"
-      page.should have_content(/because "Invalid credentials"/)
+      expect(page).to have_content("Sign in with GitHub")
+      click_link "Sign in with GitHub"
+      expect(page).to have_content(/because "Invalid credentials"/)
     end
   end
 end
