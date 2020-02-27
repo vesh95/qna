@@ -51,10 +51,19 @@ end
 
 OmniAuth.config.test_mode = true
 OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({
-    'provider' => 'github',
-    'uid' => '11',
+  'provider' => 'github',
+  'uid' => '11',
+  'info' => {
+    'email' => 'gituser@github',
+    'name' => 'mockuser',
+    'image' => 'mockuser_avatar_url'
+  }
+})
+
+OmniAuth.config.mock_auth[:vkontakte] = OmniAuth::AuthHash.new({
+    'provider' => 'vkontakte',
+    'uid' => '12',
     'info' => {
-      'email' => 'gituser@github',
       'name' => 'mockuser',
       'image' => 'mockuser_avatar_url'
     }

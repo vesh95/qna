@@ -1,5 +1,14 @@
 class OauthCallbacksController < Devise::OmniauthCallbacksController
   def github
+    sign_in_with_oauth
+  end
+
+  def vkontakte
+  end
+
+  private
+
+  def sign_in_with_oauth
     @user = User.find_for_oauth(request.env['omniauth.auth'])
 
     if @user&.persisted?
