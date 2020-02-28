@@ -6,13 +6,13 @@ class FindForOauth
   end
 
   def call
-    authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
+    authorization = Authorization.find_by(provider: auth.provider, uid: auth.uid.to_s)
     return authorization.user if authorization
 
     email = auth.info[:email]
-    user = User.where(email: email).first
+    user = User.find_by(email: email)
     if user
-      user.create_authorization(auth)
+      user.create_authorization!(auth)
     elsif email
       password = Devise.friendly_token[0, 20]
       user = User.new(email: email, password: password, password_confirmation: password)
@@ -20,7 +20,7 @@ class FindForOauth
       user.transaction do
         user.skip_confirmation!
         user.save!
-        user.authorizations.create!(provider: auth.provider, uid: auth.uid)
+        user.create_authorization!(auth)
       end
     else
       user = User.new
