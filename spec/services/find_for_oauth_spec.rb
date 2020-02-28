@@ -6,9 +6,14 @@ RSpec.describe FindForOauth do
   subject { FindForOauth.new(auth) }
 
   context 'user already has authorization' do
+    let!(:authorization) { create(:authorization, provider: 'github', uid: '123456', user: user) }
+
     it 'returns the user' do
-      user.authorizations.create(provider: 'github', uid: '123456')
       expect(subject.call).to eq user
+    end
+
+    it 'not creates new users' do
+      expect{ subject.call }.to_not change(User, :count)
     end
   end
 
@@ -52,8 +57,7 @@ RSpec.describe FindForOauth do
       end
 
       it 'creates authorization for user' do
-        user = subject.call
-        expect(user.authorizations).to_not be_empty
+        expect { subject.call }.to change(Authorization, :count).by(1)
       end
 
       it 'creates authorization with provider and uid' do
