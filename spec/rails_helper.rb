@@ -8,6 +8,8 @@ require File.expand_path('../config/environment', __dir__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 require 'capybara/email/rspec'
+OmniAuth.config.test_mode = true
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -38,6 +40,7 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include ControllerHelpers, type: :controller
   config.include FeatureHelpers, type: :feature
+  config.include OmniauthMacros
 
   # Capybara.javascript_driver = :selenium_headless
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

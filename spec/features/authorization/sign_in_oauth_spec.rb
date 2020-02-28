@@ -5,15 +5,17 @@ feature 'User can sign in with oauth' do
     background { visit new_user_session_path }
 
     scenario 'throuth Github' do
+      github_mock
       expect(page).to have_content 'Sign in with GitHub'
 
       click_on 'Sign in with GitHub'
 
-      expect(page).to have_content("gituser")
+      expect(page).to have_content("git@git")
       expect(page).to have_content("Sign Out")
     end
 
     scenario 'throuth Vkontakte' do
+      vkontakte_mock
       expect(page).to have_content 'Sign in with Vkontakte'
 
       click_on 'Sign in with Vkontakte'
