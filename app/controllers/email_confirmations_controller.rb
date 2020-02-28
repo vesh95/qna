@@ -8,7 +8,7 @@ class EmailConfirmationsController < Devise::ConfirmationsController
     user = User.new(email: email, password: password, password_confirmation: password)
 
     if user.valid?
-      user.send_confirmation_instructions
+      user.send_confirmation_instructions # Тут обновляется аттрибут confirmation_token тем самым сохраняется
     else
       flash.now[:alert] = 'Enter your email'
       render :new
@@ -19,7 +19,7 @@ class EmailConfirmationsController < Devise::ConfirmationsController
 
 
   def after_confirmation_path_for(resource, user)
-    user.authorizations.create(
+    user.authorizations.create!(
       provider: session[:provider],
       uid: session[:uid]
     )
