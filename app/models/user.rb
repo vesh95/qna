@@ -21,7 +21,7 @@ class User < ApplicationRecord
     FindForOauth.new(auth).call
   end
 
-  def create_authorization(auth)
+  def create_authorization!(auth)
     authorizations.create!(provider: auth.provider, uid: auth.uid)
   end
 end
