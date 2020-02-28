@@ -5,7 +5,11 @@ class EmailConfirmationsController < Devise::ConfirmationsController
   def create
     email = confirmation_params[:email]
     password = Devise.friendly_token[0, 20]
-    user = User.new(email: email, password: password, password_confirmation: password)
+    user = User.first_or_create(email: email) do |user|
+      user.skip_confirmation_notification!
+      user.email = email
+      user.password = password
+    end
 
     if user.valid?
       user.send_confirmation_instructions # Тут обновляется аттрибут confirmation_token тем самым сохраняется
@@ -15,17 +19,20 @@ class EmailConfirmationsController < Devise::ConfirmationsController
     end
   end
 
+  def show
+    super do |resource|
+      resource.authorizations.create!(
+        provider: session[:provider],
+        uid: session[:uid]
+      )
+    end
+  end
+
   private
 
 
   def after_confirmation_path_for(resource, user)
-    user.authorizations.create!(
-      provider: session[:provider],
-      uid: session[:uid]
-    )
-
     sign_in(user)
-    root_path
   end
 
   def confirmation_params
