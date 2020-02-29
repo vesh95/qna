@@ -26,6 +26,14 @@ RSpec.describe User, type: :model do
     let(:auth) { OmniAuth::AuthHash.new(provider: 'github', uid: '123456') }
 
     it { expect(user.create_authorization!(auth)).to be_instance_of(Authorization) }
+    it 'change authorizations count by 1' do
+      expect{ (user.create_authorization!(auth)) }.to change(Authorization, :count).by(1)
+    end
+
+    it do
+      expect(user.create_authorization!(auth))
+        .to have_attributes(auth)
+    end
   end
 
   describe '#voted?' do
