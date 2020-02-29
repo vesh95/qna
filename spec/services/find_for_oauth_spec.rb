@@ -15,6 +15,10 @@ RSpec.describe FindForOauth do
     it 'not creates new users' do
       expect{ subject.call }.to_not change(User, :count)
     end
+
+    it 'not creates new authorizations' do
+      expect{ subject.call }.to_not change(Authorization, :count)
+    end
   end
 
   context 'user has not authorization' do
