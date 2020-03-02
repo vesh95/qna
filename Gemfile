@@ -79,3 +79,5 @@ gem "omniauth", "~> 1.9"
 gem 'omniauth-github', github: 'omniauth/omniauth-github', branch: 'master'
 
 gem 'omniauth-vkontakte'
+
+gem "cancancan", "~> 3.0"
