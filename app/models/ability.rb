@@ -6,6 +6,7 @@ class Ability
   attr_reader :user
 
   def initialize(user)
+    alias_action :voteup, :votedown, :revote, to: :vote
     @user = user
     if user
       user.admin? ? admin_abilities : user_abilities
@@ -25,8 +26,13 @@ class Ability
   def user_abilities
     guest_abilities
     can :create, [Question, Answer, Comment]
-    can [:update, :destroy], Question, user: user
-    can [:update, :destroy], Answer, user: user
-    can [:update, :destroy], Comment, user: user
+    can [:update, :destroy], [Question, Answer, Comment], user: user
+    can :best, Answer do |answer|
+      answer.user != user && answer.question.user == user
+    end
+
+    can :vote, [Question, Answer, Comment] do |resource|
+      resource.user != user
+    end
   end
 end

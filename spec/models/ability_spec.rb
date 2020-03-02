@@ -12,6 +12,10 @@ RSpec.describe Ability do
     it { should be_able_to :read, Comment }
 
     it { should_not be_able_to :manage, :all }
+
+    it { should_not be_able_to :vote, build(:question, user: user) }
+    it { should_not be_able_to :vote, build(:answer, user: user) }
+    it { should_not be_able_to :best, build(:answer) }
   end
 
   describe 'for admin' do
@@ -23,6 +27,7 @@ RSpec.describe Ability do
   describe 'for user' do
     let(:user) { create(:user) }
     let(:another) { create(:user) }
+    let(:self_question) { create(:question, user: user) }
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
@@ -34,8 +39,18 @@ RSpec.describe Ability do
     it { should be_able_to [:update, :destroy], build(:answer, user: user) }
     it { should be_able_to [:update, :destroy], build(:comment, user: user) }
 
+
     it { should_not be_able_to [:update, :destroy], build(:question, user: another) }
     it { should_not be_able_to [:update, :destroy], build(:answer, user: another) }
     it { should_not be_able_to [:update, :destroy], build(:comment, user: another) }
+
+    it { should_not be_able_to :vote, build(:question, user: user) }
+    it { should_not be_able_to :vote, build(:answer, user: user) }
+    it { should be_able_to :vote, build(:answer, user: another) }
+    it { should be_able_to :vote, build(:question, user: another) }
+
+    it { should_not be_able_to :best, build(:answer, user: user) }
+    it { should_not be_able_to :best, build(:answer, question: build(:question), user: user) }
+    it { should be_able_to :best, build(:answer, question: self_question, user: another) }
   end
 end
