@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:questions) { create_list(:question, 3)}
 
-  let(:question) { create(:question)}
+  let(:question) { create(:question, user: user)}
 
   let(:user) { create(:user) }
 
@@ -167,7 +167,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'redirects to index' do
         delete :destroy, params: { id: question }
-        expect(response).to redirect_to question
+        expect(response).to redirect_to root_path
       end
     end
   end

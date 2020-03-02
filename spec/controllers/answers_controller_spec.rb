@@ -78,9 +78,9 @@ RSpec.describe AnswersController, type: :controller do
     context 'from not owner user' do
       before { login(user) }
 
-      it 'redirect to question page' do
+      it 'return status 403' do
         patch :update, params: { id: answer, answer: attributes_for(:answer) }, format: :js
-        expect(response).to render_template :update
+        expect(response.status).to eq 403
       end
 
       it 'content not changed' do
@@ -209,8 +209,8 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer).to_not be_best
       end
 
-      it 'redirects to question' do
-        expect(response.status).to eq 401
+      it 'return status 403' do
+        expect(response.status).to eq 403
       end
     end
 
