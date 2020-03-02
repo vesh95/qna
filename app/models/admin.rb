@@ -1,0 +1,1 @@
+class Admin < User; end

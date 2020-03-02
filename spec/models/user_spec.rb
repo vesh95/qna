@@ -10,6 +10,14 @@ RSpec.describe User, type: :model do
   it { should validate_presence_of :password }
 
 
+  describe '#admin?' do
+    let(:admin) { build(:user, type: 'Admin') }
+    let(:user) { build(:user) }
+
+    it { expect(admin).to be_admin }
+    it { expect(user).to_not be_admin }
+  end
+
   describe '.find_for_oauth' do
     let(:auth) { OmniAuth::AuthHash.new(provider: 'github', uid: '123456') }
     let(:service) { double('FindForOauth') }

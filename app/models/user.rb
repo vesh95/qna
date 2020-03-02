@@ -9,6 +9,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :confirmable,
          :omniauthable, omniauth_providers: %i[github vkontakte]
 
+  def admin?
+    self.type == 'Admin'
+  end
+
   def author?(resource)
     resource.user_id == self.id
   end
