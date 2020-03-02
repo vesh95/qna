@@ -1,7 +1,9 @@
 require "rails_helper"
 
 feature 'User can edit question' do
-  given!(:question) { create(:question) }
+  given(:question) { create(:question, user: user) }
+  given(:user) { create(:user) }
+
   describe 'Authenticated user' do
     given(:user) { create(:user) }
 

@@ -45,7 +45,7 @@ feature 'User can add link to question', js: true do
   end
 
   context 'edit question' do
-    given(:question) { create(:question, links: build_list(:link, 2)) }
+    given(:question) { create(:question, links: build_list(:link, 2), user: user) }
 
     background do
       sign_in(user)
