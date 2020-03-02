@@ -7,6 +7,8 @@ class AnswersController < ApplicationController
   before_action :set_answer, only: %i[edit update destroy best show]
   after_action :broadcast_answer, only: %i[create]
 
+  authorize_resource
+
   def edit; end
 
   def create

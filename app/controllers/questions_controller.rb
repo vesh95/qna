@@ -7,6 +7,8 @@ class QuestionsController < ApplicationController
   after_action :broadcast_question, only: :create
   after_action :broadcast_destroy_question, only: :create
 
+  authorize_resource
+
   def index
     @questions = Question.all
   end
