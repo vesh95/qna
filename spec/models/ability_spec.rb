@@ -24,15 +24,15 @@ RSpec.describe Ability do
   end
 
   describe 'for user' do
-    let(:user) { create(:user) }
-    let(:another) { create(:user) }
-    let(:self_question) { create(:question, user: user) }
-    let(:self_answer) { create(:answer, user: user) }
-    let(:self_comment) { create(:comment, user: user, commentable: self_answer) }
+    let(:user) { build(:user) }
+    let(:another) { build(:user) }
+    let(:self_question) { build(:question, user: user) }
+    let(:self_answer) { build(:answer, user: user) }
+    let(:self_comment) { build(:comment, user: user, commentable: self_answer) }
 
-    let(:other_question) { create(:question, user: another) }
-    let(:other_answer) { create(:answer, user: another) }
-    let(:other_comment) { create(:comment, user: another, commentable: self_answer) }
+    let(:other_question) { build(:question, user: another) }
+    let(:other_answer) { build(:answer, user: another) }
+    let(:other_comment) { build(:comment, user: another, commentable: self_answer) }
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
@@ -47,9 +47,9 @@ RSpec.describe Ability do
     it { should be_able_to :create_comment, self_answer, self_question, other_question, other_answer }
 
     describe 'best answer' do
-      let(:own_question_own_answer) { create(:answer, question: self_question, user: user) }
-      let(:own_question_other_answer) { create(:answer, question: self_question, user: another) }
-      let(:answer) { create(:answer) }
+      let(:own_question_own_answer) { build(:answer, question: self_question, user: user) }
+      let(:own_question_other_answer) { build(:answer, question: self_question, user: another) }
+      let(:answer) { build(:answer) }
 
       it { should_not be_able_to :best, self_answer, own_question_own_answer, answer }
       it { should be_able_to :best, own_question_other_answer }
