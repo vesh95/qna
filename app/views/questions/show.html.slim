@@ -9,7 +9,7 @@ h1= @question.title
   .question-files
     = render 'attachments/attachment', resource: @question
 
-  - if current_user&.author?(@question)
+  - if can?(:destroy, @question) && can?(:update, @question)
     = link_to 'Delete question', question_path(@question), method: :delete
     = link_to 'Edit question', edit_question_path(@question)
 
