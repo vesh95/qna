@@ -32,7 +32,7 @@ class Ability
       answer.user != user && answer.question.user == user
     end
 
-    can :vote, [Question, Answer, Comment] do |resource|
+    can :vote, [Question, Answer] do |resource|
       resource.user != user
     end
   end
