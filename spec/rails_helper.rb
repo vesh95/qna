@@ -41,6 +41,7 @@ RSpec.configure do |config|
   config.include ControllerHelpers, type: :controller
   config.include FeatureHelpers, type: :feature
   config.include OmniauthMacros
+  config.include ApiHelpers
 
   Capybara.javascript_driver = :selenium_headless
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
