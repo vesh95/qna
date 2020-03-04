@@ -34,4 +34,28 @@ describe 'Profile API', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/profiles/' do  
+    let(:api_path) { '/api/v1/profiles' }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :get }
+    end
+
+    context 'authorized' do
+      let(:me) { create(:user) }
+      let!(:users) { create_list(:user, 2) }
+      let(:access_token) { create(:access_token, resource_owner_id: me.id) }
+
+      before { do_request :get, api_path, params: { access_token: access_token.token }, headers: headers }
+
+      it 'return status 200' do
+        expect(response).to be_successful
+      end
+
+      it 'returns all users except me' do
+        expect(json_response['users'].count).to eq 2
+      end
+    end
+  end
 end
