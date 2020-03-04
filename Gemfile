@@ -83,3 +83,7 @@ gem 'omniauth-vkontakte'
 gem "cancancan", "~> 3.0"
 
 gem 'doorkeeper', '5.1'
+
+gem "active_model_serializers", "~> 0.10"
+
+gem "oj", "~> 3.10"

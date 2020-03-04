@@ -19,6 +19,8 @@ class User < ApplicationRecord
            foreign_key: :resource_owner_id,
            dependent: :destroy
 
+  alias_attribute :admin, :admin?
+
   def admin?
     self.type == 'Admin'
   end

@@ -1,0 +1,7 @@
+class UserSerializer < ActiveModel::Serializer
+  attributes :id, :email, :admin, :created_at, :updated_at
+
+  def admin
+    object.admin?
+  end
+end
