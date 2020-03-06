@@ -32,6 +32,10 @@ Rails.application.routes.draw do
       resources :profiles, only: %i[index] do
         get :me, on: :collection
       end
+
+      resources :questions, only: %i[index show create update destroy] do
+        get :answers, on: :member
+      end
     end
   end
 end
