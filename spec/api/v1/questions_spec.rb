@@ -31,9 +31,7 @@ describe 'Questions API', type: :request do
   end # desc GET /api/v1/questions
 
   describe 'GET /api/v1/questions/:id' do
-    let(:question) { create(:question, :with_files) }
-    let!(:comment) { create(:comment, user: create(:user), commentable: question) }
-    let!(:link) { create(:link, linkable: question) }
+    let(:question) { create(:question, :with_files, links: [build(:link)], comments: [build(:comment)]) }
     let(:api_path) { "/api/v1/questions/#{question.id}" }
     let(:request_params) { { access_token: access_token.token } }
 
