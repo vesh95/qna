@@ -12,11 +12,6 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     render json: @question
   end
 
-  def answers
-    @answers = @question.answers
-    render json: @answers, each_serializer: AnswersSerializer
-  end
-
   def create
     @question = Question.new(question_params)
     @question.user = current_resource_owner

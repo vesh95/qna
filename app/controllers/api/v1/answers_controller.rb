@@ -1,8 +1,13 @@
 class Api::V1::AnswersController < Api::V1::BaseController
-  before_action :set_question, only: :create
-  before_action :set_answer, except: :create
+  before_action :set_question, only: %i[index create]
+  before_action :set_answer, except: %i[index create]
 
   authorize_resource
+
+  def index
+    @answers = @question.answers
+    render json: @answers, each_serializer: AnswersSerializer, include: 'user'
+  end
 
   def show
     render json: @answer
