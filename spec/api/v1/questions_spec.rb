@@ -23,7 +23,7 @@ describe 'Questions API', type: :request do
     end
 
     include_examples 'public fields returnable' do
-      let(:fields) { %w[title body created_at updated_at user_id] }
+      let(:fields) { %w[title body created_at updated_at] }
       let(:resource_response) { json_response['questions'][0] }
       let(:resource) { questions[0] }
     end
@@ -31,7 +31,9 @@ describe 'Questions API', type: :request do
   end # desc GET /api/v1/questions
 
   describe 'GET /api/v1/questions/:id' do
-    let(:question) { create(:question, :with_files, links: [build(:link)], comments: [build(:comment)]) }
+    let(:question) { create(:question, :with_files) }
+    let!(:link) { create(:link, linkable: question) }
+    let!(:comment) { create(:comment, commentable: question) }
     let(:api_path) { "/api/v1/questions/#{question.id}" }
     let(:request_params) { { access_token: access_token.token } }
 
@@ -39,40 +41,41 @@ describe 'Questions API', type: :request do
     it_behaves_like 'API Authorizable' do
       let(:method) { :get }
     end
+    context 'authorized' do
+      before { do_request :get, api_path, params: request_params, headers: headers }
 
-    before { do_request :get, api_path, params: request_params, headers: headers }
+      it { expect(response).to be_successful }
 
-    it { expect(response).to be_successful }
+      let(:resource) { question }
+      let(:private_fields) { %w[password encrypted_password] }
 
-    let(:resource) { question }
-    let(:private_fields) { %w[password encrypted_password] }
+      it_behaves_like 'public fields returnable' do
+        let(:fields) { %w[title body created_at updated_at] }
+        let(:resource_response) { json_response['question'] }
+      end
 
-    it_behaves_like 'public fields returnable' do
-      let(:fields) { %w[title body created_at updated_at] }
-      let(:resource_response) { json_response['question'] }
-    end
+      include_examples 'private fields returnable' do
+        let(:resource_response) { json_response['question']['user'] }
+      end
 
-    include_examples 'private fields returnable' do
-      let(:resource_response) { json_response['question']['user'] }
-    end
+      describe 'links' do
+        let(:fields) { %w[url] }
+        let(:resource_response) { json_response['question']['links'][0] }
+        let(:resource) { question.links[0] }
+        include_examples 'public fields returnable'
+      end
 
-    describe 'links' do
-      let(:fields) { %w[url] }
-      let(:resource_response) { json_response['question']['links'][0] }
-      let(:resource) { question.links[0] }
-      include_examples 'public fields returnable'
-    end
+      describe 'comments' do
+        let(:fields) { %w[text created_at updated_at] }
+        let(:resource_response) { json_response['question']['comments'][0] }
+        let(:resource) { question.comments[0] }
+        include_examples 'public fields returnable'
+      end
 
-    describe 'comments' do
-      let(:fields) { %w[text created_at updated_at] }
-      let(:resource_response) { json_response['question']['comments'][0] }
-      let(:resource) { question.comments[0] }
-      include_examples 'public fields returnable'
-    end
-
-    describe 'comments user' do
-      let(:resource_response) { json_response['question']['comments'][0]['user'] }
-      include_examples 'private fields returnable'
+      describe 'comments user' do
+        let(:resource_response) { json_response['question']['comments'][0]['user'] }
+        include_examples 'private fields returnable'
+      end
     end
   end # desc GET /api/v1/questions/:id
 
