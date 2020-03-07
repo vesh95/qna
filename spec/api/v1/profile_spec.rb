@@ -56,6 +56,12 @@ describe 'Profile API', type: :request do
       it 'returns all users except me' do
         expect(json_response['users'].count).to eq 2
       end
-    end
-  end
+
+      it 'has not returns current_user' do
+        json_response['users'].each do |user|
+          expect(user['id']).to_not eq me.id
+        end
+      end
+    end # authorized
+  end # GET /api/v1/profiles/
 end
