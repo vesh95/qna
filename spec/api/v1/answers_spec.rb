@@ -19,7 +19,7 @@ describe 'Answers API', type: :request do
     before { do_request method, api_path, params: request_params, headers: headers }
 
     describe 'authorize' do
-      it { expect(response).to be_successful; pp json_response }
+      it { expect(response).to be_successful }
       include_examples 'public fields returnable' do
         let(:resource_response) { json_response['answer'] }
         let(:resource) { answer }
