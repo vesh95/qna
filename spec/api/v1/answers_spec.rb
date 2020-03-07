@@ -10,19 +10,16 @@ describe 'Answers API', type: :request do
     let(:request_params) { { access_token: access_token } }
     let(:method) { :get }
     let(:api_path) { "/api/v1/answers/#{answer.id}" }
+    let(:answer) { create(:answer, :with_files) }
+    let!(:link) { create(:link, linkable: answer) }
+    let!(:comment) { create(:comment, commentable: answer) }
 
-    include_examples 'API Authorizable' do
-      let(:answer) { create(:answer) }
-    end
+    it_behaves_like 'API Authorizable'
 
     before { do_request method, api_path, params: request_params, headers: headers }
 
     describe 'authorize' do
-      # Здесь была проблема, когда выполнял let!(:links/:comments)
-      let(:answer) { create(:answer, :with_files, links: [build(:link)], comments: [build(:comment)]) }
-
-      it { expect(response).to be_successful }
-
+      it { expect(response).to be_successful; pp json_response }
       include_examples 'public fields returnable' do
         let(:resource_response) { json_response['answer'] }
         let(:resource) { answer }
