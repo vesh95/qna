@@ -42,11 +42,11 @@ class Api::V1::AnswersController < Api::V1::BaseController
   private
 
   def set_question
-    @question = Question.with_attached_files.find(params['question_id'])
+    @question = Question.includes(:user).with_attached_files.find(params['question_id'])
   end
 
   def set_answer
-    @answer = Answer.find(params['id'])
+    @answer = Answer.includes(:user).find(params['id'])
   end
 
   def answer_params

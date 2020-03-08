@@ -4,7 +4,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   authorize_resource except: [:answers]
 
   def index
-    @questions = Question.all
+    @questions = Question.includes(:user).all
     render json: @questions, include: :user
   end
 
