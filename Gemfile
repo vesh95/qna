@@ -65,29 +65,17 @@ end
 gem "slim"
 gem 'devise'
 gem "aws-sdk-s3", require: false
-
 gem "validate_url", "~> 1.0"
-
 gem "cocoon", "~> 1.2"
-
 gem "image_processing", "~> 1.10"
-
 gem "gon", "~> 6.3"
-
 gem "omniauth", "~> 1.9"
-
 gem 'omniauth-github', github: 'omniauth/omniauth-github', branch: 'master'
-
 gem 'omniauth-vkontakte'
-
 gem "cancancan", "~> 3.0"
-
 gem 'doorkeeper', '5.1'
-
 gem "active_model_serializers", "~> 0.10"
-
 gem "oj", "~> 3.10"
-
 gem "sidekiq", "~> 6.0"
-
 gem 'sinatra', require: false
+gem 'whenever', require: false
