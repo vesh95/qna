@@ -18,6 +18,8 @@ h1= @question.title
 
   = render 'comments/comments', resource: @question
 
+  = render 'subscriptions/subscription', resource: @question
+
 h2 Answers
 .answers
   = render @question.answers

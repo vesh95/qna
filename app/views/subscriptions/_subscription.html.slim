@@ -1,0 +1,7 @@
+.subscription
+  - unless current_user&.subscribed?(resource)
+    .subscribe
+      = link_to('Subscribe', subscriptions_question_path(resource), remote: true, method: :post, class: 'btn btn-sm btn-primary')
+
+  - else
+    .unsubscribe= link_to('Unsubscribe', subscriptions_question_path(resource), remote: true, method: :delete, class: 'btn btn-sm btn-danger')

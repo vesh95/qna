@@ -36,7 +36,7 @@ RSpec.describe Ability do
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
-    it { should be_able_to :create, Answer, Question, Comment }
+    it { should be_able_to :create, Answer, Question, Comment, Subscription }
 
     it { should be_able_to [:update, :destroy], self_question, self_answer, self_comment }
 
@@ -45,6 +45,15 @@ RSpec.describe Ability do
     it { should_not be_able_to :vote, self_question, self_answer }
 
     it { should be_able_to :create_comment, self_answer, self_question, other_question, other_answer }
+
+    describe 'subscriptions' do
+      let(:user) { create(:user) }
+      let(:question) { create(:question) }
+      let(:subscription) { user.subscribe!(question) }
+
+      it { should be_able_to :create, Subscription }
+      it { should be_able_to :destroy, subscription }
+    end
 
     describe 'best answer' do
       let(:own_question_own_answer) { build(:answer, question: self_question, user: user) }
