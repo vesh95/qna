@@ -12,6 +12,8 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true
 
+  after_create_commit :notify_subscribers
+
 
   def make_best!
     transaction do
@@ -21,4 +23,9 @@ class Answer < ApplicationRecord
     end
   end
 
+  private
+
+  def notify_subscribers
+    NewAnswerDigestJob.perform_later(self)
+  end
 end

@@ -12,7 +12,16 @@ class Question < ApplicationRecord
 
   has_many_attached :files
 
+  after_create_commit :subscribe_user!
+
   validates :title, :body, presence: true
 
   accepts_nested_attributes_for :award, reject_if: :all_blank
+
+
+  private
+
+  def subscribe_user!
+    user.subscribe!(self)
+  end
 end
