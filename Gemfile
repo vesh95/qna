@@ -87,3 +87,7 @@ gem 'doorkeeper', '5.1'
 gem "active_model_serializers", "~> 0.10"
 
 gem "oj", "~> 3.10"
+
+gem "sidekiq", "~> 6.0"
+
+gem 'sinatra', require: false
