@@ -13,8 +13,7 @@ feature 'User can destroy question attached files', js: true do
 
     it 'have attachments' do
       expect(page).to have_link 'README.md'
-      expect(page).to have_link 'config.ru'
-      expect(page).to have_link('Delete attachment', count: 2)
+      expect(page).to have_link('Delete attachment')
     end
 
     it 'tries delete delete' do
