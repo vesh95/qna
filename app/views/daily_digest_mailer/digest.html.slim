@@ -1,0 +1,12 @@
+h1 New questions for the last day
+
+small Hello #{@user.email}
+
+- @questions.each do |question|
+  h2
+    = question.title
+
+  p
+    = question.body
+
+hr
