@@ -5,10 +5,41 @@ RSpec.describe User, type: :model do
   it { should have_many(:answers) }
   it { should have_many(:awards) }
   it { should have_many(:authorizations).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
 
+  context 'subscriptions' do
+    let(:question) { create(:question) }
+    let(:user) { create(:user) }
+
+    describe '#subscribe' do
+      it 'creates subscription' do
+        expect { user.subscribe!(question) }.to change(Subscription, :count).by(1)
+      end
+    end
+
+    describe '#unscribe' do
+      let!(:subscription) { create(:subscription, user: user, question: question) }
+
+      it 'deletes subscription' do
+        expect { user.unsubscribe!(question) }.to change(Subscription, :count).by(-1)
+      end
+
+      it 'it deletes right subscription' do
+        expect(user.unsubscribe!(question)).to be_include subscription
+      end
+    end
+
+    describe '#subscribed?' do
+      let!(:subscription) { create(:subscription, user: user, question: question)}
+
+      it 'user have subscription' do
+        expect(user.subscribed?(question)).to be_truthy
+      end
+    end
+  end
 
   describe '#admin?' do
     let(:admin) { build(:user, type: 'Admin') }

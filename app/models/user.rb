@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :awards, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   # :lockable, :timeoutable, :trackable
   devise :database_authenticatable, :registerable,
@@ -20,6 +21,18 @@ class User < ApplicationRecord
            dependent: :destroy
 
   alias_attribute :admin, :admin?
+
+  def subscribe!(question)
+    subscriptions.create!(question_id: question.id)
+  end
+
+  def unsubscribe!(question)
+    subscriptions.destroy_by(question_id: question.id)
+  end
+
+  def subscribed?(question)
+    subscriptions.exists?(question_id: question.id)
+  end
 
   def admin?
     self.type == 'Admin'
