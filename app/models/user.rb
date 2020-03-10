@@ -23,15 +23,15 @@ class User < ApplicationRecord
   alias_attribute :admin, :admin?
 
   def subscribe!(question)
-    subscriptions.create!(question_id: question.id)
+    subscriptions.create!(question: question)
   end
 
   def unsubscribe!(question)
-    subscriptions.destroy_by(question_id: question.id)
+    subscriptions.destroy_by(question: question)
   end
 
   def subscribed?(question)
-    subscriptions.exists?(question_id: question.id)
+    subscriptions.exists?(question: question)
   end
 
   def admin?

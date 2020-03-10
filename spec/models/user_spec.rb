@@ -14,13 +14,13 @@ RSpec.describe User, type: :model do
     let!(:question) { create(:question) }
     let(:user) { create(:user) }
 
-    describe '#subscribe' do
+    describe '#subscribe!' do
       it 'creates subscription' do
         expect { user.subscribe!(question) }.to change(Subscription, :count).by(1)
       end
     end
 
-    describe '#unscribe' do
+    describe '#unsubscribe!' do
       let!(:subscription) { create(:subscription, user: user, question: question) }
 
       it 'deletes subscription' do
