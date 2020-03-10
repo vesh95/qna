@@ -5,8 +5,7 @@ class SubscriptionsController < ApplicationController
   authorize_resource
 
   def create
-    unless current_user.subscribed?(@question)
-      @subscription = current_user.subscribe!(@question)
+    if @subscription = current_user.subscribe!(@question)
       flash[:notice] = 'Subscribed successfully'
     else
       flash[:alert] = 'Already subscribed'
@@ -14,8 +13,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def destroy
-    if current_user.subscribed?(@question)
-      current_user.unsubscribe!(@question)
+    if current_user.unsubscribe!(@question)
       flash[:notice] = 'Unsubscribe successfully'
     else
       flash[:alert] = 'Already unsubscribed'
