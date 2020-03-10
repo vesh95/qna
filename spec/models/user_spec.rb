@@ -13,10 +13,16 @@ RSpec.describe User, type: :model do
   context 'subscriptions' do
     let!(:question) { create(:question) }
     let(:user) { create(:user) }
+    let(:subscription) { user.subscribe!(question) }
 
     describe '#subscribe!' do
       it 'creates subscription' do
         expect { user.subscribe!(question) }.to change(Subscription, :count).by(1)
+      end
+
+      it 'attributes must match' do
+        expect(subscription.user.id).to eq user.id
+        expect(subscription.question.id).to eq question.id
       end
     end
 
@@ -27,8 +33,9 @@ RSpec.describe User, type: :model do
         expect { user.unsubscribe!(question) }.to change(Subscription, :count).by(-1)
       end
 
-      it 'it deletes right subscription' do
-        expect(user.unsubscribe!(question)).to be_include subscription
+      it 'attributes must match' do
+        expect(subscription.user.id).to eq user.id
+        expect(subscription.question.id).to eq question.id
       end
     end
 
