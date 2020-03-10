@@ -6,7 +6,7 @@ RSpec.describe NewAnswerDigestService do
   let!(:subscriptions) { create_list(:subscription, 2, question: question)}
 
   it 'sends daily digest to all users' do
-    Subscription.all.each do |subscription|
+    Subscription.includes(:user).all.each do |subscription|
       expect(NewAnswerDigestMailer).to receive(:send_notification).with(subscription.user, answer).and_call_original
     end
     subject.digest(answer)
