@@ -4,7 +4,7 @@ class DailyDigestService
     return if @questions.empty?
 
     User.find_each do |user|
-      DailyDigestMailer.digest(user, @questions)
+      DailyDigestMailer.digest(user, @questions.to_a).deliver_later
     end
   end
 end
