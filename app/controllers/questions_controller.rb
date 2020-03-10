@@ -6,6 +6,7 @@ class QuestionsController < ApplicationController
   before_action :set_question, only: %i[show edit update destroy]
   after_action :broadcast_question, only: :create
   after_action :broadcast_destroy_question, only: :create
+  before_action :set_subscription, only: %i[show]
 
   authorize_resource
 
@@ -87,5 +88,10 @@ class QuestionsController < ApplicationController
       id: @question.id,
       action: :destroy
     })
+  end
+
+  def set_subscription
+    @subscription = current_user.subscriptions
+      .find_by(question_id: @question) if current_user
   end
 end

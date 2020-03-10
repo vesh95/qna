@@ -1,6 +1,6 @@
 class SubscriptionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_question, only: %i[create destroy]
+  before_action :set_question, only: %i[create]
 
   authorize_resource
 
@@ -13,7 +13,8 @@ class SubscriptionsController < ApplicationController
   end
 
   def destroy
-    if current_user.unsubscribe!(@question)
+    @subscription = Subscription.find(params[:id])
+    if @subscription.destroy
       flash[:notice] = 'Unsubscribe successfully'
     else
       flash[:alert] = 'Already unsubscribed'
@@ -23,6 +24,6 @@ class SubscriptionsController < ApplicationController
   private
 
   def set_question
-    @question = Question.find(params[:id])
+    @question = Question.find(params[:question_id])
   end
 end
