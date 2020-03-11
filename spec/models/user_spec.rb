@@ -21,8 +21,8 @@ RSpec.describe User, type: :model do
       end
 
       it 'attributes must match' do
-        expect(subscription.user.id).to eq user.id
-        expect(subscription.question.id).to eq question.id
+        expect(subscription.user).to eq user
+        expect(subscription.question).to eq question
       end
     end
 
