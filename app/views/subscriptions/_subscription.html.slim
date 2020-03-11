@@ -1,5 +1,5 @@
 .subscription
-  - unless current_user&.subscribed?(resource)
+  - unless @subscription&.persisted?
     .subscribe
       = link_to('Subscribe', question_subscriptions_path(question_id: resource), remote: true, method: :post, class: 'btn btn-sm btn-primary')
 
