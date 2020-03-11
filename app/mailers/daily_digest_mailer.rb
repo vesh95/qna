@@ -1,7 +1,7 @@
 class DailyDigestMailer < ApplicationMailer
-  def digest(user, questions)
+  def digest(user, date)
     @user = user
-    @questions = questions
+    @questions = Question.where(created_at: date.all_day)
     mail to: user.email, subject: 'New Questions Digest'
   end
 end
