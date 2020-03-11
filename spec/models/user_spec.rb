@@ -39,11 +39,11 @@ RSpec.describe User, type: :model do
       let(:another_question) { create(:question) }
 
       it 'user have subscription' do
-        expect(user.subscribed?(question)).to be_truthy
+        expect(user).to be_subscribed(question)
       end
 
       it 'user to not have another subscription' do
-        expect(user.subscribed?(another_question)).to be_falsy
+        expect(user).to_not be_subscribed(another_question)
       end
 
     end
