@@ -29,13 +29,8 @@ RSpec.describe User, type: :model do
     describe '#unsubscribe!' do
       let!(:subscription) { create(:subscription, user: user, question: question) }
 
-      it 'deletes subscription' do
-        expect { user.unsubscribe!(question) }.to change(Subscription, :count).by(-1)
-      end
-
-      it 'attributes must match' do
-        expect(subscription.user.id).to eq user.id
-        expect(subscription.question.id).to eq question.id
+      it 'deleted subscription not exists' do
+        expect { user.unsubscribe!(question) }.to change(Subscription.where(question: question, user: user), :empty?).from(false).to(true)
       end
     end
 
