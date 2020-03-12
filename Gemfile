@@ -79,3 +79,5 @@ gem "oj", "~> 3.10"
 gem "sidekiq", "~> 6.0"
 gem 'sinatra', require: false
 gem 'whenever', require: false
+gem 'mysql2'
+gem 'thinking-sphinx'
