@@ -1,0 +1,10 @@
+= form_with model: @search ||= Search.new, url: search_path, method: :get, local: true, class: 'form-inline' do |f|
+  .input-group
+    .input-group-prepend
+      = f.label :q, 'Query', class: 'input-group-text'
+
+    = f.text_field :q, class: 'form-control'
+    = f.select :resource, SearchService::RESOUCES, {}, { class: 'custom-select ' }
+
+    .input-group-append
+      = f.submit 'Search', class: 'btn btn-outline-success'
