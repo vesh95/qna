@@ -1,0 +1,9 @@
+li.list-group-item.comment
+  .small Comment by: #{link_to result.user.email, user_path(result.user)}
+  = result.text
+  .small
+    | on #{result.commentable.class.name.downcase}:
+    - if result.commentable.is_a? Answer
+      = link_to result.commentable.body, result.commentable.question
+    - else
+      = link_to result.commentable.title, result.commentable

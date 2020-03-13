@@ -1,0 +1,5 @@
+li.list-group-item.question
+  .small Question by: #{link_to result.user.email, user_path(result.user)}
+
+  = link_to result.title, result
+  .small = result.body

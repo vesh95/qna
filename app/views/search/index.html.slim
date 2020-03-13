@@ -1,2 +1,6 @@
 #results
-  = render @resources
+  small#results-count.text-muted
+   | Results count: #{@results.count}
+  ul.list-group
+  - @results.each do |result|
+    = render result.class.to_s.downcase, result: result

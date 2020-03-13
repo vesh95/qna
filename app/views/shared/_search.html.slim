@@ -1,4 +1,4 @@
-= form_with model: @search ||= Search.new, url: search_path, method: :get, local: true, class: 'form-inline' do |f|
+= form_with model: @search ||= Search.new, url: search_path, method: :get, local: true, class: 'form-inline', id: 'search' do |f|
   .input-group
     .input-group-prepend
       = f.label :q, 'Query', class: 'input-group-text'

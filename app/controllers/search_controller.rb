@@ -1,7 +1,7 @@
 class SearchController < ApplicationController
   def index
     @search = Search.new(search_params)
-    @resources = SearchService.call(@search)
+    @results = SearchService.call(@search)
   end
 
   private

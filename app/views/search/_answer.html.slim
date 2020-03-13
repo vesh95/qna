@@ -1,0 +1,4 @@
+li.list-group-item.answer
+  .small Answer by: #{link_to result.user.email, user_path(result.user)}
+  p = result.body
+  .small for question: #{link_to result.question.title, result.question}
