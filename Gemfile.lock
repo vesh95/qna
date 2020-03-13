@@ -114,6 +114,7 @@ GEM
     concurrent-ruby (1.1.6)
     connection_pool (2.2.2)
     crass (1.0.6)
+    database_cleaner (1.8.3)
     devise (4.7.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -370,6 +371,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   capybara-email
   cocoon (~> 1.2)
+  database_cleaner (~> 1.8)
   devise
   doorkeeper (= 5.1)
   factory_bot_rails
