@@ -1,9 +1,10 @@
 class SearchService
   AVAILABLE_SCOPES = %w[All Question Answer Comment User]
   def self.call(search_model)
-    @query = search_model.query
-    @resource = search_model.scope
+    query = search_model.query
+    scope = search_model.scope
+    klass = AVAILABLE_SCOPES[1..-1].include?(scope) ? scope.constantize : ThinkingSphinx
 
-    @resource == 'All' ? ThinkingSphinx.search(@query) : @resource.constantize.search(@query)
+    klass.search(ThinkingSphinx::Query.escape(query))
   end
 end
