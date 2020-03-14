@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SearchService do
   context 'calls .search for all resources' do
-    let(:search) { Search.new(q: 'Find', resource: 'All') }
+    let(:search) { Search.new(query: 'Find', scope: 'All') }
 
     it 'all resources' do
       expect(ThinkingSphinx).to receive(:search).with('Find')
@@ -15,7 +15,7 @@ RSpec.describe SearchService do
     %w[Question Answer Comment User].each do |resource|
 
       it "#{resource} model" do
-        search = Search.new(q: 'query', resource: resource)
+        search = Search.new(query: 'query', scope: resource)
         expect(resource.constantize).to receive(:search).with('query')
 
         SearchService.call(search)

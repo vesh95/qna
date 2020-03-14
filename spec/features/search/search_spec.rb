@@ -13,7 +13,7 @@ feature 'User can search resources' do
     ThinkingSphinx::Test.run do
       within '#search' do
         fill_in 'Query', with: 'body'
-        find('#search_resource').select 'All'
+        find('#search_scope').select 'All'
         click_on 'Search'
       end
 
@@ -23,7 +23,7 @@ feature 'User can search resources' do
 
       within '#search' do
         fill_in 'Query', with: 'user'
-        find('#search_resource').select 'All'
+        find('#search_scope').select 'All'
         click_on 'Search'
       end
 
@@ -36,7 +36,7 @@ feature 'User can search resources' do
     ThinkingSphinx::Test.run do
       within '#search' do
         fill_in 'Query', with: 'body'
-        find('#search_resource').select 'Question'
+        find('#search_scope').select 'Question'
         click_on 'Search'
       end
 
@@ -52,7 +52,7 @@ feature 'User can search resources' do
     ThinkingSphinx::Test.run do
       within '#search' do
         fill_in 'Query', with: 'body'
-        find('#search_resource').select 'Answer'
+        find('#search_scope').select 'Answer'
         click_on 'Search'
       end
 
@@ -68,7 +68,7 @@ feature 'User can search resources' do
     ThinkingSphinx::Test.run do
       within '#search' do
         fill_in 'Query', with: 'body'
-        find('#search_resource').select 'Comment'
+        find('#search_scope').select 'Comment'
         click_on 'Search'
       end
 
@@ -84,7 +84,7 @@ feature 'User can search resources' do
     ThinkingSphinx::Test.run do
       within '#search' do
         fill_in 'Query', with: 'user'
-        find('#search_resource').select 'User'
+        find('#search_scope').select 'User'
         click_on 'Search'
       end
 
