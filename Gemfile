@@ -89,3 +89,5 @@ gem 'whenever', require: false
 gem 'mysql2'
 gem 'thinking-sphinx'
 gem "database_cleaner", "~> 1.8"
+
+gem "mini_racer", "~> 0.2.9"
