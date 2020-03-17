@@ -83,7 +83,7 @@ gem "cancancan", "~> 3.0"
 gem 'doorkeeper', '5.1'
 gem "active_model_serializers", "~> 0.10"
 gem "oj", "~> 3.10"
-gem "sidekiq", "~> 6.0"
+gem "sidekiq", "~> 5.0"
 gem 'sinatra', require: false
 gem 'whenever', require: false
 gem 'mysql2'
