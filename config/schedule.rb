@@ -14,7 +14,11 @@
 # end
 #
 every 1.day do
-  runner "DailyDigestService.new.send_digest"
+  command 'cd /home/deployer/qna/current && bundle exec bin/rails runner -e production DailyDigestService.new.send_digest'
+end
+
+every 60.minutes do
+  rake "ts:index"
 end
 
 # Learn more: http://github.com/javan/whenever
