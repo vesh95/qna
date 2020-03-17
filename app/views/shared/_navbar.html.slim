@@ -1,4 +1,4 @@
-nav.navbar
+nav.navbar.navbar-light.bg-light
   - if user_signed_in?
     .user-menu
       .user-email= current_user.email
@@ -9,4 +9,7 @@ nav.navbar
       = link_to 'Log In', new_user_session_path
       = link_to 'Sign In', new_user_registration_path
 
+  =link_to 'Questions', questions_path, class: "nav-link"
+  - if current_user&.admin?
+    =link_to 'Sidekiq', '/sidekiq', class: "nav-link"
   = render 'shared/search'
