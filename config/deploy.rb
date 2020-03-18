@@ -26,29 +26,12 @@ append :linked_files, "config/database.yml", "config/master.key"
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", "public/assets", "storage", "node_modules"
 
-# after "deploy:finishing", "sidekiq:start"
-#
-# namespace :sidekiq do
-#   task :start do
-#     on roles(:app), in: :sequence, wait: 5 do
-#       within release_path do
-#         as :deployer  do
-#           with rails_env: fetch(:rails_env) do
-#             execute :bundle, "exec sidekiq -e production -q default -q mailers -d"
-#           end
-#         end
-#       end
-#     end
-#   end
-# end
-# Default value for default_env is {}
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+after 'deploy:publishing', 'deploy:restart'
 
-# Default value for local_user is ENV['USER']
-# set :local_user, -> { `git config user.name`.chomp }
+namespace :deploy do
+  task :restart do
+    invoke 'unicorn:restart'
+  end
+end
 
-# Default value for keep_releases is 5
-# set :keep_releases, 5
-
-# Uncomment the following to require manually verifying the host key before first deploy.
-# set :ssh_options, verify_host_key: :secure
+set :keep_releases, 3
