@@ -1,4 +1,5 @@
-- if resource.files.attached?
+- cache resource do
+  - if resource.files.attached?
     - resource.files.each do |file|
       .file data-attach-id=file.id
         = link_to file.filename.to_s, url_for(file)
