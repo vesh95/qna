@@ -1,2 +1,5 @@
 test:
   mysql41: 9307
+
+production:
+  pid_file: "tmp/pids/searchd.pid"
