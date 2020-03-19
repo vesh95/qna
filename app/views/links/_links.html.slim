@@ -1,6 +1,7 @@
 - unless resource.links.empty?
   ul
     - resource.links.each do |link|
+      - cache link do
         - if link.gist?
           code gist="#{link.url}.json"
             .spinner-border.spinner-border-sm
