@@ -12,18 +12,15 @@ class AnswersController < ApplicationController
   def edit; end
 
   def create
-    @answer = @question.answers.create(answer_params)
+    @answer = @question.answers.create(answer_params.merge(user: current_user))
   end
 
   def update
-    @answer.update(answer_params) if current_user.author?(@answer)
-    @question = @answer.question
+    @answer.update(answer_params)
   end
 
   def destroy
-    if current_user.author?(@answer)
-      @answer.destroy
-    end
+    @answer.destroy
   end
 
   def best
@@ -48,7 +45,7 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, files: [], links_attributes: [:id, :name, :url, :_destroy]).merge(user: current_user)
+    params.require(:answer).permit(:body, files: [], links_attributes: [:id, :name, :url, :_destroy])
   end
 
   def broadcast_answer

@@ -1,7 +1,7 @@
-var updatedAnswer = $('.answer[data-answer-id=<%= @answer.id %>]')
+var updatedAnswer = $('.answer[data-answer-id="<%= @answer.id %>"]')
 
 <% if @answer.errors.blank? %>
-  $(updatedAnswer).html('<%= j render @answer %>');
+  $(updatedAnswer).replaceWith('<%= j render @answer %>');
 <% else %>
   $(".errors-answer", updatedAnswer).html('<%= render 'shared/errors', resource: @answer %>')
 <% end %>
