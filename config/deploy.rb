@@ -27,6 +27,9 @@ append :linked_files, "config/database.yml", "config/master.key"
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", "public/assets", "storage", "node_modules"
 
 after 'deploy:publishing', 'deploy:restart'
+before 'deploy:updating', 'thinking_sphinx:stop'
+after 'deploy:published', 'thinking_sphinx:start'
+after 'thinking_sphinx:start', 'thinking_sphinx:index'
 
 namespace :deploy do
   task :restart do

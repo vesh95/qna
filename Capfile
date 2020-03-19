@@ -9,9 +9,8 @@ require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
 require 'capistrano/sidekiq'
 require 'whenever/capistrano'
-# require "capistrano/passenger"
 require 'capistrano3/unicorn'
-require 'thinking_sphinx/capistrano/v3'
+require 'thinking_sphinx/capistrano'
 
 # Load the SCM plugin appropriate to your project:
 #
