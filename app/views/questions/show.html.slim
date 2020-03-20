@@ -1,24 +1,26 @@
 h1= @question.title
 
 #question data-question-id=(@question.id)
-  .links
-    = render 'links/links', resource: @question
+  - cache @question
+    .links
+      = render 'links/links', resource: @question
 
-  p.question-body= @question.body
+    p.question-body= @question.body
 
-  .question-files
-    = render 'attachments/attachment', resource: @question
+    .question-files
+      = render 'attachments/attachment', resource: @question
+
+    = render 'shared/vote', resource: @question
 
   - if can?(:destroy, @question)
     = link_to 'Delete question', question_path(@question), method: :delete
   - if can?(:update, @question)
     = link_to 'Edit question', edit_question_path(@question)
+  = render 'subscriptions/subscription', resource: @question
 
-  = render 'shared/vote', resource: @question
 
   = render 'comments/comments', resource: @question
 
-  = render 'subscriptions/subscription', resource: @question
 
 h2 Answers
 .answers
