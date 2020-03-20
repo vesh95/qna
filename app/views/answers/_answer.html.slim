@@ -2,19 +2,16 @@
   - if answer.best?
     i The best answer
 
-  - cache answer do
+  - cache answer
     .links
       = render 'links/links', resource: answer
     p.body.answer-body= answer.body
     .answer-files
       = render 'attachments/attachment', resource: answer
 
-    - if can? :update, answer
-      .edit.hidden
-        = render 'answers/form', answer: answer, question: nil
+  = render 'shared/vote', resource: answer
 
-    = render 'shared/vote', resource: answer
-
+  - if can? :create, Comment
     = render 'comments/comments', resource: answer
 
 
@@ -26,3 +23,6 @@
     - if can?(:best, answer) && !answer.best?
       = link_to 'Best!', best_answer_path(answer), method: :patch, remote: true, class: 'best-answer-link'
   =render 'shared/errors', resource: answer
+  - if can? :update, answer
+    .edit.hidden
+      = render 'answers/form', answer: answer, question: nil
