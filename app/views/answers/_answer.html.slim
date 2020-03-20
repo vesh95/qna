@@ -1,7 +1,8 @@
-- cache answer do
-  .answer.card data-answer-id=answer.id  id="answer-id-#{answer.id}"
-    - if answer.best?
-      i The best answer
+.answer.card data-answer-id=answer.id  id="answer-id-#{answer.id}"
+  - if answer.best?
+    i The best answer
+
+  - cache answer do
     .links
       = render 'links/links', resource: answer
     p.body.answer-body= answer.body
@@ -17,11 +18,11 @@
     = render 'comments/comments', resource: answer
 
 
-    .actions
-      - if can?(:update, answer)
-        = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-      - if can?(:destroy, answer)
-        = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true, class: 'delete-answer-link'
-      - if can?(:best, answer) && !answer.best?
-        = link_to 'Best!', best_answer_path(answer), method: :patch, remote: true, class: 'best-answer-link'
-    =render 'shared/errors', resource: answer
+  .actions
+    - if can?(:update, answer)
+      = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+    - if can?(:destroy, answer)
+      = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true, class: 'delete-answer-link'
+    - if can?(:best, answer) && !answer.best?
+      = link_to 'Best!', best_answer_path(answer), method: :patch, remote: true, class: 'best-answer-link'
+  =render 'shared/errors', resource: answer
