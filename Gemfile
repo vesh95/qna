@@ -81,7 +81,7 @@ gem "omniauth", "~> 1.9"
 gem 'omniauth-github', github: 'omniauth/omniauth-github', branch: 'master'
 gem 'omniauth-vkontakte'
 gem "cancancan", "~> 3.0"
-gem 'doorkeeper', '5.1'
+gem 'doorkeeper', '5.1.1'
 gem "active_model_serializers", "~> 0.10"
 gem "oj", "~> 3.10"
 gem "sidekiq", "~> 5.0"
