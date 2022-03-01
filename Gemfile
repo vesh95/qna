@@ -75,7 +75,7 @@ gem 'devise'
 gem "aws-sdk-s3", require: false
 gem "validate_url", "~> 1.0"
 gem "cocoon", "~> 1.2"
-gem "image_processing", "~> 1.10"
+gem "image_processing", "~> 1.12"
 gem "gon", "~> 6.4"
 gem "omniauth", "~> 1.9"
 gem 'omniauth-github', github: 'omniauth/omniauth-github', branch: 'master'
